@@ -1,0 +1,12 @@
+Packages/*
+!Packages/.robloxrc
+
+rotriever.lock
+roblox.toml
+*.rbxmx
+*.rbxm
+
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
+.idea

@@ -1,0 +1,4 @@
+[tools]
+rotrieve = { source = "roblox/rotriever", version = "0.5.4" }
+selene = { source = "Kampfkarren/selene", version = "0.18.2" }
+stylua = { source = "JohnnyMorganz/StyLua", version = "=0.13.1" }
