@@ -8,6 +8,7 @@ content_root = "src"
 
 [dependencies]
 LuauPolyfill = "github.com/roblox/luau-polyfill@0.3.4"
+LuauRegExp = "github.com/Roblox/luau-regexp@0.2.0"
 
 [dev_dependencies]
 JestGlobals = "github.com/roblox/jest-roblox@2.4.1"

@@ -7,9 +7,9 @@ find Packages/Dev -name "*.robloxrc" | xargs rm -f
 find Packages/_Index -name "*.robloxrc" | xargs rm -f
 
 echo "Run static analysis"
-selene src
+selene src types
 roblox-cli analyze analyze.project.json
-stylua -c src
+stylua -c src types
 
 echo "Run tests"
 roblox-cli run --load.place tests.project.json --run bin/spec.lua --lua.globals=__DEV__=true --fastFlags.allOnLuau
