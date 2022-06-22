@@ -6,7 +6,8 @@ type RegExp = RegExp.RegExp
 
 -- ROBLOX deviation START: unkwown type
 type HTMLElement = { [string]: any }
--- ROBLOS deviation END
+type Element = { [string]: any }
+-- ROBLOX deviation END
 
 local exports = {}
 

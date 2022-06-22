@@ -18,6 +18,9 @@
         },
         "Types": {
           "$path": "types"
+        },
+        "JsHelpers": {
+          "$path": "jsHelpers"
         }
       }
     }

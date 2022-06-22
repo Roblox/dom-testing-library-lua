@@ -12,3 +12,4 @@ LuauRegExp = "github.com/Roblox/luau-regexp@0.2.0"
 
 [dev_dependencies]
 JestGlobals = "github.com/roblox/jest-roblox@2.4.1"
+Promise = "github.com/evaera/roblox-lua-promise@4.0.0"
