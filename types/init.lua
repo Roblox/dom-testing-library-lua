@@ -15,6 +15,9 @@ local exports = {}
 -- Object.assign(exports, require(script["query-helpers"]))
 -- Object.assign(exports, require(script.screen))
 -- Object.assign(exports, require(script["wait-for"]))
+local waitForModule = require(script["wait-for"])
+export type waitForOptions = waitForModule.waitForOptions
+export type waitFor = waitForModule.waitFor
 -- Object.assign(exports, require(script["wait-for-element-to-be-removed"]))
 local matchesModule = require(script.matches)
 export type MatcherFunction = matchesModule.MatcherFunction

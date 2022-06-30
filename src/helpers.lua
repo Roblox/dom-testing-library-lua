@@ -7,6 +7,7 @@ local Error = LuauPolyfill.Error
 type Object = LuauPolyfill.Object
 
 local TypeError = require(Packages.JsHelpers.typeError)
+local document = require(Packages.JsHelpers.document)
 
 local exports = {}
 
@@ -18,17 +19,22 @@ local TEXT_NODE = 3
   Lua implentation may be different, and require a different check
 ]]
 local function jestFakeTimersAreEnabled()
-	local jest = require(Packages.Dev.JestGlobals).jest :: any
-	local setTimeout = require(Packages.LuauPolyfill).setTimeout :: any
+	local jest = require(Packages.Dev.JestGlobals).jest
+	-- ROBLOX deviation START: workaround to determine if fake timers are running
+	-- local setTimeout = require(Packages.LuauPolyfill).setTimeout :: any
 	--[[ istanbul ignore else ]]
 	if jest ~= nil then
 			-- stylua: ignore
-			return (
-				-- legacy timers
-				setTimeout._isMockFunction == true
-				-- modern timers
-				or setTimeout["clock"] ~= nil
-			)
+			-- return (
+			-- 	typeof(setTimeout) == "table" and
+			-- 	-- legacy timers
+			-- 	(setTimeout._isMockFunction == true
+			-- 	-- modern timers
+			-- 	or setTimeout["clock"] ~= nil)
+			-- )
+		local ok = pcall(jest.getTimerCount)
+		return ok
+		-- ROBLOX deviation END
 	end
 	-- istanbul ignore next
 	return false
@@ -36,12 +42,12 @@ end
 
 local function getDocument()
 	--[[ istanbul ignore if ]]
-	--ROBLOX deviation START: no global document
+	--ROBLOX deviation START: set custom document
 	-- if window == nil then
 	-- 	error(Error.new("Could not find default container"))
 	-- end
 	-- return window.document
-	return nil
+	return document
 	--ROBLOX deviation END
 end
 
@@ -99,8 +105,8 @@ local function checkContainerType(container: Object | nil): ()
 
 	if
 		not container
-		or not (typeof(container.querySelector) == "function")
-		or not (typeof(container.querySelectorAll) == "function")
+		-- or not (typeof(container.querySelector) == "function")
+		or not (typeof(container.GetChildren) == "function")
 	then
 		error(
 			TypeError.new(

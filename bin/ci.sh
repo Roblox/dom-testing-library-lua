@@ -12,4 +12,4 @@ roblox-cli analyze analyze.project.json
 stylua -c src types jsHelpers
 
 echo "Run tests"
-roblox-cli run --load.place tests.project.json --run bin/spec.lua --lua.globals=__DEV__=true --fastFlags.allOnLuau
+roblox-cli run --load.place tests.project.json --run bin/spec.lua --lua.globals=__DEV__=true --fastFlags.allOnLuau --fastFlags.overrides EnableLoadModule=true

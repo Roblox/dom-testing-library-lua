@@ -9,10 +9,10 @@ content_root = "src"
 [dependencies]
 LuauPolyfill = "github.com/roblox/luau-polyfill@0.3.4"
 LuauRegExp = "github.com/Roblox/luau-regexp@0.2.0"
+Promise = "github.com/evaera/roblox-lua-promise@4.0.0"
 JestGetType = { git = "https://github.com/roblox/jest-roblox.git", version="2.4.1", package="JestGetType"}
 PrettyFormat = { git = "https://github.com/roblox/jest-roblox.git", version="2.4.1", package="PrettyFormat"}
 RobloxShared = { git = "https://github.com/roblox/jest-roblox.git", version="2.4.1", package="RobloxShared"}
 
 [dev_dependencies]
-JestGlobals = "github.com/roblox/jest-roblox@2.4.1"
-Promise = "github.com/evaera/roblox-lua-promise@4.0.0"
+JestGlobals = { git = "https://github.com/roblox/jest-roblox.git", rev="master" }

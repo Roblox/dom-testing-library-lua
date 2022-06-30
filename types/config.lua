@@ -9,7 +9,6 @@ type Promise<T> = LuauPolyfill.Promise<T>
 type unknown = any --[[ ROBLOX FIXME: adding `unknown` type alias to make it easier to use Luau unknown equivalent when supported ]]
 
 -- ROBLOX deviation START: unknown types
-type Element = Object
 type Partial<T> = Object
 -- ROBLOX deviation END
 
@@ -33,7 +32,7 @@ export type Config = {
 	defaultIgnore: string,
 	showOriginalStackTrace: boolean,
 	throwSuggestions: boolean,
-	getElementError: (message: string | nil, container: Element) -> Error,
+	getElementError: (message: string | nil, container: Instance) -> Error,
 }
 
 export type ConfigFn = (existingConfig: Config) -> Partial<Config>

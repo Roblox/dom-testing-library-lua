@@ -2,14 +2,14 @@
 return function()
 	local Packages = script.Parent.Parent.Parent
 
-	local Promise = require(Packages.Dev.Promise)
+	local Promise = require(Packages.Promise)
 
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 
-	-- ROBLOX deviation START: assume document to be nil
-	local document = nil
+	-- ROBLOX deviation START: assume constant document
+	local document = require(Packages.JsHelpers.document)
 	-- ROBLOX deviation END
 
 	-- ROBLOX TODO START: not ported yet. Mocked

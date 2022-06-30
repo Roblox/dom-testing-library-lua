@@ -60,7 +60,7 @@ local config: InternalConfig = {
 		local error_ = Error.new(Array.join(
 			Array.filter({
 				message,
-				("Ignored nodes: comments, <script />, <style />\n%s"):format(tostring(prettifiedDOM)),
+				("Ignored nodes: comments, <script />, <style />\n%s"):format(prettifiedDOM),
 			}, Boolean.toJSBoolean),
 			"\n\n"
 		))
