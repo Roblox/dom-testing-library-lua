@@ -34,7 +34,11 @@ export type getDefaultNormalizer = matchesModule.getDefaultNormalizer
 -- Object.assign(exports, require(script["get-queries-for-element"]))
 -- Object.assign(exports, require(script["pretty-dom"]))
 -- Object.assign(exports, require(script["role-helpers"]))
--- Object.assign(exports, require(script.config))
+local configModule = require(script.config)
+export type Config = configModule.Config
+export type ConfigFn = configModule.ConfigFn
+export type configure = configModule.configure
+export type getConfig = configModule.getConfig
 -- Object.assign(exports, require(script.suggestions))
 
 return exports

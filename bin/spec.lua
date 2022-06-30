@@ -8,7 +8,7 @@ local TestEZ = JestGlobals.TestEZ
 
 -- Run all tests, collect results, and report to stdout.
 TestEZ.TestBootstrap:run(
-	{ Packages.DomTestingLibrary },
+	{ Packages.DomTestingLibrary, Packages.JsHelpers },
 	TestEZ.Reporters.pipe({
 		TestEZ.Reporters.JestDefaultReporter,
 		TestEZ.Reporters.JestSummaryReporter,
