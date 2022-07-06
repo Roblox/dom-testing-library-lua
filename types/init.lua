@@ -57,4 +57,7 @@ export type configure = configModule.configure
 export type getConfig = configModule.getConfig
 -- Object.assign(exports, require(script.suggestions))
 
+local getNodeTextModule = require(script["get-node-text"])
+export type getNodeText = getNodeTextModule.getNodeText
+
 return exports
