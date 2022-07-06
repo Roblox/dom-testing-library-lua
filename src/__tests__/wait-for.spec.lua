@@ -193,13 +193,15 @@ return function()
 		end).toThrow("Received `callback` arg must be a function")
 	end)
 
-	-- ROBLOX FIXME: needs prettyDOM, result will be different
-	itFIXME("timeout logs a pretty DOM", function()
+	it("timeout logs a pretty DOM", function()
 		return Promise.resolve()
 			:andThen(function()
 				-- ROBLOX deviation START: replace with Instance
-				-- renderIntoDocument('<div id="pretty">how pretty</div>')
 				local div = Instance.new("Frame")
+				div.Name = "pretty"
+				local text = Instance.new("TextLabel")
+				text.Text = "how pretty"
+				text.Parent = div
 				renderIntoDocument({ div })
 				-- ROBLOX deviation END
 				local error_ = waitFor(function()
@@ -212,18 +214,97 @@ return function()
 				jestExpect(error_.message).toBe([[
 always throws
 
-Ignored nodes: comments, <script />, <style />
-<html>
-  <head />
-  <body>
-    <div
-      id="pretty"
-    >
-      how pretty
-    </div>
-  </body>
-</html>
-]])
+Folder {
+  "Archivable": true,
+  "ClassName": "Folder",
+  "Name": "Document",
+  "Parent": nil,
+  "pretty": Frame {
+    "AbsolutePosition": Vector2(0, 0),
+    "AbsoluteRotation": 0,
+    "AbsoluteSize": Vector2(0, 0),
+    "Active": false,
+    "AnchorPoint": Vector2(0, 0),
+    "Archivable": true,
+    "AutoLocalize": true,
+    "AutomaticSize": EnumItem(Enum.AutomaticSize.None),
+    "BackgroundColor3": Color3(0.639216, 0.635294, 0.647059),
+    "BackgroundTransparency": 0,
+    "BorderColor3": Color3(0.105882, 0.164706, 0.207843),
+    "BorderMode": EnumItem(Enum.BorderMode.Outline),
+    "BorderSizePixel": 1,
+    "ClassName": "Frame",
+    "ClipsDescendants": false,
+    "LayoutOrder": 0,
+    "Name": "pretty",
+    "NextSelectionDown": nil,
+    "NextSelectionLeft": nil,
+    "NextSelectionRight": nil,
+    "NextSelectionUp": nil,
+    "Parent": "Document" [Folder],
+    "Position": UDim2({0, 0}, {0, 0}),
+    "RootLocalizationTable": nil,
+    "Rotation": 0,
+    "Selectable": false,
+    "SelectionImageObject": nil,
+    "Size": UDim2({0, 0}, {0, 0}),
+    "SizeConstraint": EnumItem(Enum.SizeConstraint.RelativeXY),
+    "Style": EnumItem(Enum.FrameStyle.Custom),
+    "Visible": true,
+    "ZIndex": 1,
+    "TextLabel": TextLabel {
+      "AbsolutePosition": Vector2(0, 0),
+      "AbsoluteRotation": 0,
+      "AbsoluteSize": Vector2(0, 0),
+      "Active": false,
+      "AnchorPoint": Vector2(0, 0),
+      "Archivable": true,
+      "AutoLocalize": true,
+      "AutomaticSize": EnumItem(Enum.AutomaticSize.None),
+      "BackgroundColor3": Color3(0.639216, 0.635294, 0.647059),
+      "BackgroundTransparency": 0,
+      "BorderColor3": Color3(0.105882, 0.164706, 0.207843),
+      "BorderMode": EnumItem(Enum.BorderMode.Outline),
+      "BorderSizePixel": 1,
+      "ClassName": "TextLabel",
+      "ClipsDescendants": false,
+      "ContentText": "how pretty",
+      "Font": EnumItem(Enum.Font.Legacy),
+      "LayoutOrder": 0,
+      "LineHeight": 1,
+      "MaxVisibleGraphemes": -1,
+      "Name": "TextLabel",
+      "NextSelectionDown": nil,
+      "NextSelectionLeft": nil,
+      "NextSelectionRight": nil,
+      "NextSelectionUp": nil,
+      "Parent": "pretty" [Frame],
+      "Position": UDim2({0, 0}, {0, 0}),
+      "RichText": false,
+      "RootLocalizationTable": nil,
+      "Rotation": 0,
+      "Selectable": false,
+      "SelectionImageObject": nil,
+      "Size": UDim2({0, 0}, {0, 0}),
+      "SizeConstraint": EnumItem(Enum.SizeConstraint.RelativeXY),
+      "Text": "how pretty",
+      "TextBounds": Vector2(NAN, NAN),
+      "TextColor3": Color3(0.105882, 0.164706, 0.207843),
+      "TextFits": false,
+      "TextScaled": false,
+      "TextSize": 8,
+      "TextStrokeColor3": Color3(0, 0, 0),
+      "TextStrokeTransparency": 1,
+      "TextTransparency": 0,
+      "TextTruncate": EnumItem(Enum.TextTruncate.None),
+      "TextWrapped": false,
+      "TextXAlignment": EnumItem(Enum.TextXAlignment.Center),
+      "TextYAlignment": EnumItem(Enum.TextYAlignment.Center),
+      "Visible": true,
+      "ZIndex": 1,
+    },
+  },
+}]])
 			end)
 			:expect()
 	end)
@@ -285,39 +366,35 @@ Ignored nodes: comments, <script />, <style />
 			:expect()
 	end)
 
-	-- ROBLOX FIXME: needs prettyDOM, result will be different
-	itFIXME(
-		"when a promise is returned, if that is not resolved within the timeout, then waitFor is rejected",
-		function()
-			return Promise.resolve()
-				:andThen(function()
-					local function sleep(t)
-						return Promise.new(function(r)
-							return setTimeout(r, t)
-						end)
-					end
-					local promise = deferred().promise
-					local waitForError = waitFor(function()
-						return promise
-					end, { timeout = 1 }):catch(function(e)
-						return e
+	it("when a promise is returned, if that is not resolved within the timeout, then waitFor is rejected", function()
+		return Promise.resolve()
+			:andThen(function()
+				local function sleep(t)
+					return Promise.new(function(r)
+						return setTimeout(r, t)
 					end)
-					sleep(5):expect()
-					-- ROBLOX deviation START: use toBe instead of toMatchInlineSnapshot
-					jestExpect(waitForError:expect().message).toBe([[
+				end
+				local promise = deferred().promise
+				local waitForError = waitFor(function()
+					return promise
+				end, { timeout = 1 }):catch(function(e)
+					return e
+				end)
+				sleep(5):expect()
+				-- ROBLOX deviation START: use toBe instead of toMatchInlineSnapshot.
+				jestExpect(waitForError:expect().message).toBe([[
 Timed out in waitFor.
 
-Ignored nodes: comments, <script />, <style />
-<html>
-  <head />
-  <body />
-</html>
-]])
-					-- ROBLOX deviation END
-				end)
-				:expect()
-		end
-	)
+Folder {
+  "Archivable": true,
+  "ClassName": "Folder",
+  "Name": "Document",
+  "Parent": nil,
+}]])
+				-- ROBLOX deviation END
+			end)
+			:expect()
+	end)
 
 	it("if you switch from fake timers to real timers during the wait period you get an error", function()
 		return Promise.resolve()

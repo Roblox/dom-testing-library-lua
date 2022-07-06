@@ -11,6 +11,8 @@ local Object = LuauPolyfill.Object
 local instanceof = LuauPolyfill.instanceof
 type Object = LuauPolyfill.Object
 
+local exports = {}
+
 local JestGetType = require(Packages.JestGetType)
 local getType = JestGetType.getType
 
@@ -78,7 +80,8 @@ local function printInstance(
 	indentation: string,
 	depth: number,
 	refs: Refs,
-	printer: Printer
+	printer: Printer,
+	filter: any
 ): string
 	local result = ""
 
@@ -92,6 +95,16 @@ local function printInstance(
 		result = result .. config.spacingOuter
 
 		local indentationNext = indentation .. config.indent
+
+		--[[ROBLOX comment:
+			some properties are not stable until they are accesed
+			this workaround access all of them once before printing
+		]]
+		local _workaround: any
+		for _, v in ipairs(props) do
+			_workaround = val[v]
+		end
+		_workaround = nil
 
 		-- ROBLOX comment: print properties of Instance
 		for i, v in ipairs(props) do
@@ -115,13 +128,14 @@ local function printInstance(
 		end
 
 		-- ROBLOX comment: recursively print children of Instance
-		for i, v in ipairs(children) do
+		local filtered = Array.filter(children, filter)
+		for i, v in ipairs(filtered) do
 			local name = printer(v.Name, config, indentationNext, depth, refs)
 			local value = printer(v, config, indentationNext, depth, refs)
 
 			result = string.format("%s%s%s: %s", result, indentationNext, name, value)
 
-			if i < #children then
+			if i < #filtered then
 				result = result .. "," .. config.spacingInner
 			elseif not config.min then
 				result = result .. ","
@@ -134,32 +148,35 @@ local function printInstance(
 	return result
 end
 
-local function serialize(
-	val: any,
-	config: Config,
-	indentation: string,
-	depth: number,
-	refs: Refs,
-	printer: Printer
-): string
-	depth = depth + 1
+local function serialize(filter: any)
+	return function(val: any, config: Config, indentation: string, depth: number, refs: Refs, printer: Printer): string
+		depth = depth + 1
 
-	if depth >= config.maxDepth then
-		return string.format('"%s" [%s]', val.Name, val.ClassName)
+		if depth >= config.maxDepth then
+			return string.format('"%s" [%s]', val.Name, val.ClassName)
+		end
+
+		if instanceof(val, InstanceSubset) then
+			return val.ClassName
+				.. " {"
+				.. printTableEntries(val.subset, config, indentation, depth, refs, printer)
+				.. "}"
+		end
+
+		return val.ClassName .. " {" .. printInstance(val, config, indentation, depth, refs, printer, filter) .. "}"
 	end
-
-	if instanceof(val, InstanceSubset) then
-		return val.ClassName .. " {" .. printTableEntries(val.subset, config, indentation, depth, refs, printer) .. "}"
-	end
-
-	return val.ClassName .. " {" .. printInstance(val, config, indentation, depth, refs, printer) .. "}"
 end
 
 local function test(val: any): boolean
 	return getType(val) == "Instance" or instanceof(val, InstanceSubset)
 end
 
-return {
-	serialize = serialize,
-	test = test,
-}
+local function createDOMElementFilter(filterNode: (node: Instance) -> boolean)
+	return {
+		test = test,
+		serialize = serialize(filterNode),
+	}
+end
+exports.default = createDOMElementFilter
+
+return exports

@@ -32,7 +32,23 @@ export type getDefaultNormalizer = matchesModule.getDefaultNormalizer
 -- Object.assign(exports, require(script["get-node-text"]))
 -- Object.assign(exports, require(script.events))
 -- Object.assign(exports, require(script["get-queries-for-element"]))
--- Object.assign(exports, require(script["pretty-dom"]))
+local prettyDomModule = require(script["pretty-dom"])
+export type PrettyDOMOptions = prettyDomModule.PrettyDOMOptions
+export type prettyDOM = (dom: Instance?, maxLength: number?, options: PrettyDOMOptions?) -> string | false
+export type logDOM = (dom: Instance?, maxLength: number?, options: PrettyDOMOptions?) -> ()
+export type Colors = prettyDomModule.Colors
+export type CompareKeys = prettyDomModule.CompareKeys
+-- export type Config = prettyDomModule.Config
+export type Options = prettyDomModule.Options
+export type OptionsReceived = prettyDomModule.OptionsReceived
+export type OldPlugin = prettyDomModule.OldPlugin
+export type NewPlugin = prettyDomModule.NewPlugin
+export type Plugin = prettyDomModule.Plugin
+export type Plugins = prettyDomModule.Plugins
+export type PrettyFormatOptions = prettyDomModule.PrettyFormatOptions
+export type Printer = prettyDomModule.Printer
+export type Refs = prettyDomModule.Refs
+export type Theme = prettyDomModule.Theme
 -- Object.assign(exports, require(script["role-helpers"]))
 local configModule = require(script.config)
 export type Config = configModule.Config

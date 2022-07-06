@@ -8,6 +8,10 @@ local Error = LuauPolyfill.Error
 local Object = LuauPolyfill.Object
 type Object = LuauPolyfill.Object
 
+-- ROBLOX deviation START: extracted to avoid circular dependency
+local defaultIgnore = require(script.Parent["config-default-ignore"])
+-- ROBLOX deviation END
+
 -- ROBLOX deviation START: unknown types
 type Partial<T> = Object
 -- ROBLOX deviation END
@@ -47,7 +51,7 @@ local config: InternalConfig = {
 	-- default value for the `hidden` option in `ByRole` queries
 	defaultHidden = false,
 	-- default value for the `ignore` option in `ByText` queries
-	defaultIgnore = "script, style",
+	defaultIgnore = defaultIgnore.getIgnore(),
 	-- showOriginalStackTrace flag to show the full error stack traces for async errors
 	showOriginalStackTrace = false,
 
@@ -60,7 +64,10 @@ local config: InternalConfig = {
 		local error_ = Error.new(Array.join(
 			Array.filter({
 				message,
-				("Ignored nodes: comments, <script />, <style />\n%s"):format(prettifiedDOM),
+				-- ROBLOX deviation: message does not make sense in Lua.
+				-- ("Ignored nodes: comments, <script />, <style />\n%s"):format(prettifiedDOM),
+				prettifiedDOM,
+				-- ROBLOX deviation END
 			}, Boolean.toJSBoolean),
 			"\n\n"
 		))
@@ -94,8 +101,12 @@ local function configure(newConfig: ConfigFn | Partial<Config>)
 		newConfig = newConfig(config)
 	end
 
+	if (newConfig :: Partial<Config>).defaultIgnore then
+		defaultIgnore.setIgnore((newConfig :: Partial<Config>).defaultIgnore)
+	end
+
 	-- Merge the incoming config delta
-	config = Object.assign({}, config, newConfig)
+	config = Object.assign({}, Object.assign(config, { defaultIgnore = Object.None }), newConfig)
 end
 exports.configure = configure
 

@@ -29,7 +29,7 @@ export type Config = {
 	computedStyleSupportsPseudoElements: boolean,
 	defaultHidden: boolean,
 	--[[* default value for the `ignore` option in `ByText` queries ]]
-	defaultIgnore: string,
+	defaultIgnore: { [number]: string },
 	showOriginalStackTrace: boolean,
 	throwSuggestions: boolean,
 	getElementError: (message: string | nil, container: Instance) -> Error,

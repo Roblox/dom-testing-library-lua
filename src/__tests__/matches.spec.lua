@@ -38,7 +38,7 @@ return function()
 		local regex = RegExp("ABC", "g")
 		-- ROBLOX deviation START: workaround for jest.spyOn
 		local originalFn = console.warn
-		console.warn = jest.fn():mockImplementation()
+		console.warn = jest.fn().mockImplementation()
 		local spy = console.warn
 		-- ROBLOX deviation END: workaround for jest.spyOn
 		jestExpect(matches("ABC", node, regex, normalizer)).toBe(true)
