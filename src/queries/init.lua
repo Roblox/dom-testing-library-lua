@@ -7,7 +7,7 @@ local Object = LuauPolyfill.Object
 local exports = {}
 
 -- Object.assign(exports, require(script["label-text"]))
--- Object.assign(exports, require(script["placeholder-text"]))
+Object.assign(exports, require(script["placeholder-text"]))
 Object.assign(exports, require(script.text))
 -- Object.assign(exports, require(script["display-value"]))
 -- Object.assign(exports, require(script["alt-text"]))
