@@ -11,12 +11,7 @@ return function(afterEach)
 
 	local exports = {}
 
-	-- ROBLOX FIXME: use when ready
-	-- local getQueriesForElement =
-	-- 	require(script.Parent.Parent.Parent["get-queries-for-element"]).getQueriesForElement
-	local getQueriesForElement = function(el: Instance)
-		return {}
-	end
+	local getQueriesForElement = require(script.Parent.Parent.Parent["get-queries-for-element"]).getQueriesForElement
 
 	local function render(html: Array<Instance>, ref_: Object?)
 		local ref = (if ref_ == nil then {} else ref_) :: Object
