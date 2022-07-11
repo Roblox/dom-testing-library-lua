@@ -91,7 +91,7 @@ local function getWindowFromNode(node)
 	end
 end
 
-local function checkContainerType(container: Object | nil): ()
+local function checkContainerType(container: any): ()
 	-- ROBLOX deviation START: hoist function
 	local function getTypeName(object): string
 		-- ROBLOX deviation START: in Lua nil is not an object. we can skip this check

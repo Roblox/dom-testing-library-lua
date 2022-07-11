@@ -9,12 +9,7 @@ type unknown = any --[[ ROBLOX FIXME: adding `unknown` type alias to make it eas
 local exports = {}
 
 local checkContainerType = require(script.Parent.Parent.helpers).checkContainerType
--- ROBLOX FIXME: use module when ready
--- local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion
-local wrapAllByQueryWithSuggestion = function<Arguments>(fn, ...)
-	return fn
-end
-
+local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion
 local typesModule = require(Packages.Types)
 type AllByBoundAttribute<T = Instance> = typesModule.AllByBoundAttribute<T>
 
@@ -25,11 +20,7 @@ type GetErrorFunction<T> = any
 local all_utilsModule = require(script.Parent["all-utils"])
 local queryAllByAttribute = all_utilsModule.queryAllByAttribute
 local getConfig = all_utilsModule.getConfig
--- ROBLOX FIXME: pending implementation
--- local buildQueries = all_utilsModule.buildQueries
-local buildQueries = function(...)
-	return {}
-end
+local buildQueries = all_utilsModule.buildQueries
 
 local function getTestIdAttribute()
 	return getConfig().testIdAttribute

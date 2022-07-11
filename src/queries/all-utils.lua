@@ -8,7 +8,7 @@ local exports = {} :: { [string]: any }
 
 Object.assign(exports, require(script.Parent.Parent.matches))
 Object.assign(exports, require(script.Parent.Parent["get-node-text"]))
--- Object.assign(exports, require(script.Parent.Parent["query-helpers"]))
+Object.assign(exports, require(script.Parent.Parent["query-helpers"]))
 Object.assign(exports, require(script.Parent.Parent.config))
 
-return exports :: typeof(exports)
+return exports
