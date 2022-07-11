@@ -1,8 +1,8 @@
--- ROBLOX upstream: https://github.com/testing-library/dom-testing-library/blob/v8.14.0/src/queries/index.js
--- local Packages = script.Parent.Parent
+-- ROBLOX upstream: https://github.com/testing-library/dom-testing-library/blob/v8.14.0/src/queries/index.ts
+local Packages = script.Parent.Parent
 
--- local LuauPolyfill = require(Packages.LuauPolyfill)
--- local Object = LuauPolyfill.Object
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local Object = LuauPolyfill.Object
 
 local exports = {}
 
@@ -13,6 +13,6 @@ local exports = {}
 -- Object.assign(exports, require(script["alt-text"]))
 -- Object.assign(exports, require(script.title))
 -- Object.assign(exports, require(script.role))
--- Object.assign(exports, require(script["test-id"]))
+Object.assign(exports, require(script["test-id"]))
 
 return exports

@@ -1,6 +1,18 @@
 {
   "name": "DomTestingLibrary",
   "tree": {
-    "$path": "src"
+    "$className": "Folder",
+    "Packages": {
+      "$path": "Packages",
+      "DomTestingLibrary": {
+        "$path": "src"
+      },
+      "Types": {
+        "$path": "types"
+      },
+      "JsHelpers": {
+        "$path": "jsHelpers"
+      }
+    }
   }
 }

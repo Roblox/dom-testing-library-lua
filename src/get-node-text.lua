@@ -6,14 +6,14 @@ local exports = {}
 
 -- ROBLOX deviation START: Helper function to allow us to check if a node contains a Text key (Object.keys was not working for the same)
 local function hasText(node: Instance)
-	return node.Text
+	return (node :: any).Text
 end
 -- ROBLOX deviation END
 
 local function getNodeText(node: Instance): string
 	-- ROBLOX deviation START: Checking whether the node table contains a 'Text' key
 	local ok = pcall(hasText, node)
-	local text = if ok then node.Text else ""
+	local text = if ok then (node :: any).Text else ""
 
 	local children = node:GetChildren()
 
