@@ -23,11 +23,6 @@ local queryAllByPlaceholderText: AllByBoundAttribute
 function queryAllByPlaceholderText(...: any)
 	local args = { ... }
 	checkContainerType(args[1])
-	--[[ ROBLOX TODO:
-		 PlaceholderText is a property,
-		 We may require a queryAllByProperty method.
-		 Let's wait for query-helpers to be merged
-	]]
 	return queryAllByAttribute("PlaceholderText", ...)
 end
 

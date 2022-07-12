@@ -16,11 +16,8 @@ type ByRoleMatcher = matchesModule.ByRoleMatcher
 type Matcher = matchesModule.Matcher
 type MatcherOptions = matchesModule.MatcherOptions
 
--- ROBLOX TODO START: use real type
--- local queryHelpersModule = require(script.Parent["query-helpers"])
--- type SelectorMatcherOptions = queryHelpersModule.SelectorMatcherOptions
-type SelectorMatcherOptions = Object
--- ROBLOX TODO END
+local queryHelpersModule = require(script.Parent["query-helpers"])
+type SelectorMatcherOptions = queryHelpersModule.SelectorMatcherOptions
 
 local waitForModule = require(script.Parent["wait-for"])
 type waitForOptions = waitForModule.waitForOptions

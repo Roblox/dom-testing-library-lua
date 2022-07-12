@@ -18,13 +18,8 @@ local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers
 local checkContainerType = require(script.Parent.Parent.helpers).checkContainerType
 local typesModule = require(Packages.Types)
 type AllByText<T = Instance> = typesModule.AllByText<T>
-
--- ROBLOX FIXME: use correct type when available
--- type GetErrorFunction<T> = typesModule.GetErrorFunction<T>
-type GetErrorFunction<T> = any
--- ROBLOX FIXME: use correct type when available
--- type SelectorMatcherOptions = typesModule.SelectorMatcherOptions
-type SelectorMatcherOptions = any
+type GetErrorFunction<Argument = any> = typesModule.GetErrorFunction<Argument>
+type SelectorMatcherOptions = typesModule.SelectorMatcherOptions
 type Matcher = typesModule.Matcher
 local all_utilsModule = require(script.Parent["all-utils"])
 local fuzzyMatches = all_utilsModule.fuzzyMatches
@@ -35,8 +30,8 @@ local buildQueries = all_utilsModule.buildQueries
 local getConfig = all_utilsModule.getConfig
 
 local queryAllByText: AllByText
-function queryAllByText(container, text, ref_: Object?)
-	local ref = (if ref_ == nil then {} else ref_) :: Object
+function queryAllByText(container, text, ref_)
+	local ref = (if ref_ == nil then {} else ref_) :: SelectorMatcherOptions
 	local selector, exact, collapseWhitespace, trim, ignore, normalizer =
 		if ref.selector == nil then { "." } else ref.selector,
 		if ref.exact == nil then true else ref.exact,
@@ -75,13 +70,13 @@ function queryAllByText(container, text, ref_: Object?)
 	)
 end
 
-local getMultipleError: GetErrorFunction<Array<unknown>>
+local getMultipleError: GetErrorFunction<unknown>
 function getMultipleError(c, text)
 	return ("Found multiple elements with the text: %s"):format(tostring(text))
 end
-local getMissingError: GetErrorFunction<Array<Matcher | SelectorMatcherOptions>>
-function getMissingError(c, text, options_: Object?)
-	local options = (if options_ == nil then {} else options_) :: Object
+local getMissingError: GetErrorFunction
+function getMissingError(c, text: Matcher, options_: SelectorMatcherOptions?)
+	local options = (if options_ == nil then {} else options_) :: SelectorMatcherOptions
 	local collapseWhitespace, trim, normalizer = options.collapseWhitespace, options.trim, options.normalizer
 	local matchNormalizer = makeNormalizer({
 		collapseWhitespace = collapseWhitespace,

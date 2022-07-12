@@ -16,10 +16,6 @@ local exports = {}
 local matchRegExp
 -- ROBLOX deviation END
 
--- ROBLOX deviation START: unknown types
-type Element = Object
--- ROBLOX deviation END
-
 local typesModule = require(script.Parent.Parent.Types)
 type Matcher = typesModule.Matcher
 type NormalizerFn = typesModule.NormalizerFn
@@ -43,7 +39,7 @@ end
 
 local function fuzzyMatches(
 	textToMatch: string | nil,
-	node: Element | nil,
+	node: Instance | nil,
 	matcher: Matcher | nil,
 	normalizer: NormalizerFn
 )
@@ -68,7 +64,12 @@ local function fuzzyMatches(
 	end
 end
 
-local function matches(textToMatch: string | nil, node: Element | nil, matcher: Matcher | nil, normalizer: NormalizerFn)
+local function matches(
+	textToMatch: string | nil,
+	node: Instance | nil,
+	matcher: Matcher | nil,
+	normalizer: NormalizerFn
+)
 	if typeof(textToMatch) ~= "string" then
 		return false
 	end

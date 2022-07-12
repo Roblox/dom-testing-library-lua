@@ -30,7 +30,7 @@ local function getQueriesForElement(element: Instance, queries_: any?, initialVa
 	return Array.reduce(Object.keys(queries :: Object), function(helpers, key: string)
 		local fn = queries[key]
 		helpers[key] = function(...)
-			fn(element, ...)
+			return fn(element, ...)
 		end
 		return helpers
 	end, initialValue :: Object)

@@ -179,15 +179,11 @@ return function()
 	end)
 
 	it("throws nice error if provided callback is not a function", function()
-		-- ROBLOX TODO use queries when available
-		-- ROBLOX deviation START: replace with Instance
-		-- 		local queryByTestId = renderIntoDocument([[
-
-		--     <div data-testid="div"></div>
-		--   ]]).queryByTestId
-		-- 		local someElement = queryByTestId("div")
-		local someElement = Instance.new("Frame")
-		-- ROBLOX deviation END
+		local div = Instance.new("Frame")
+		div:SetAttribute("data-testid", "div")
+		local queryByTestId = renderIntoDocument({ div }).queryByTestId
+		local someElement = queryByTestId("div")
+		jestExpect(someElement).toBe(div)
 		jestExpect(function()
 			return waitFor(someElement)
 		end).toThrow("Received `callback` arg must be a function")
@@ -313,7 +309,7 @@ Folder {
 		return Promise.resolve()
 			:andThen(function()
 				local elementError = Error.new("Custom element error")
-				local getElementError = jest.fn().mockImplementation(function()
+				local getElementError = jest.fn(function()
 					return elementError
 				end)
 				configure({ getElementError = getElementError })

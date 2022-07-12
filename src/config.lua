@@ -7,6 +7,7 @@ local Boolean = LuauPolyfill.Boolean
 local Error = LuauPolyfill.Error
 local Object = LuauPolyfill.Object
 type Object = LuauPolyfill.Object
+type Promise<T> = LuauPolyfill.Promise<T>
 
 -- ROBLOX deviation START: extracted to avoid circular dependency
 local defaultIgnore = require(script.Parent["config-default-ignore"])
@@ -39,13 +40,13 @@ local config: InternalConfig = {
 	-- so we have this config option that's really only intended for
 	-- react-testing-library to use. For that reason, this feature will remain
 	-- undocumented.
-	asyncWrapper = function(cb)
+	asyncWrapper = function(cb: (...any) -> Promise<any>)
 		return cb()
 	end,
-	unstable_advanceTimersWrapper = function(cb)
+	unstable_advanceTimersWrapper = function(cb: (...any) -> any)
 		return cb()
 	end,
-	eventWrapper = function(cb)
+	eventWrapper = function(cb: (...any) -> ())
 		return cb()
 	end,
 	-- default value for the `hidden` option in `ByRole` queries

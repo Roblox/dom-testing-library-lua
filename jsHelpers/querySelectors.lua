@@ -6,21 +6,30 @@ type Array<T> = LuauPolyfill.Array<T>
 
 local exports = {}
 
-local function matches(instance: Instance, patterns: Array<string>)
+type PropOrAttr = "property" | "attribute"
+
+local function matches(instance: Instance, patterns: Array<string>, type_: PropOrAttr?)
 	return Array.some(patterns, function(pattern)
-		return instance.ClassName:find(pattern) ~= nil
+		if not type_ then
+			return instance.ClassName:find(pattern) ~= nil
+		elseif type_ == "property" then
+			-- ROBLOX FIXME Luau: will complain when accessing with an indexed property
+			return (instance :: any)[pattern] ~= nil
+		else
+			return instance:GetAttribute(pattern) ~= nil
+		end
 	end)
 end
 
-local function getDescendantsMatching(instance: Instance, patterns: Array<string>, max: number?)
+local function getDescendantsMatching(instance: Instance, patterns: Array<string>, type_: PropOrAttr?, max: number?)
 	local matchesResult = {}
 	local children = instance:GetChildren()
 
 	Array.forEach(children, function(child)
-		if matches(child, patterns) then
+		if matches(child, patterns, type_) then
 			table.insert(matchesResult, child)
 		end
-		matchesResult = Array.concat(matchesResult, getDescendantsMatching(child, patterns, max))
+		matchesResult = Array.concat(matchesResult, getDescendantsMatching(child, patterns, type_, max))
 	end)
 
 	return if max
@@ -28,11 +37,11 @@ local function getDescendantsMatching(instance: Instance, patterns: Array<string
 		else matchesResult
 end
 
-exports.querySelector = function(instance: Instance, patterns: Array<string>)
-	return getDescendantsMatching(instance, patterns, 1) :: Instance?
+exports.querySelector = function(instance: Instance, patterns: Array<string>, type_: PropOrAttr?)
+	return getDescendantsMatching(instance, patterns, type_, 1) :: Instance?
 end
-exports.querySelectorAll = function(instance: Instance, patterns: Array<string>)
-	return getDescendantsMatching(instance, patterns) :: Array<Instance>
+exports.querySelectorAll = function(instance: Instance, patterns: Array<string>, type_: PropOrAttr?)
+	return getDescendantsMatching(instance, patterns, type_) :: Array<Instance>
 end
 exports.matches = matches
 

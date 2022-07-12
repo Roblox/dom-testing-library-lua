@@ -4,11 +4,6 @@ local Packages = script.Parent.Parent
 local RegExp = require(Packages.LuauRegExp)
 type RegExp = RegExp.RegExp
 
--- ROBLOX deviation START: unkwown type
-type HTMLElement = { [string]: any }
-type Element = { [string]: any }
--- ROBLOX deviation END
-
 local exports = {}
 
 -- ROBLOX deviation START: Package not available
@@ -16,7 +11,7 @@ local exports = {}
 type ARIARole = { [string]: any }
 -- ROBLOX deviation END
 
-export type MatcherFunction = (content: string, element: Element | nil) -> boolean
+export type MatcherFunction = (content: string, element: Instance?) -> boolean
 export type Matcher = MatcherFunction | RegExp | number | string -- Get autocomplete for ARIARole union types, while still supporting another string
 
 -- Get autocomplete for ARIARole union types, while still supporting another string
@@ -38,12 +33,7 @@ export type MatcherOptions = {
 	suggest: boolean?,
 }
 
-export type Match = (
-	textToMatch: string,
-	node: HTMLElement | nil,
-	matcher: Matcher,
-	options: MatcherOptions?
-) -> boolean
+export type Match = (textToMatch: string, node: Instance | nil, matcher: Matcher, options: MatcherOptions?) -> boolean
 
 export type DefaultNormalizerOptions = { trim: boolean?, collapseWhitespace: boolean? }
 

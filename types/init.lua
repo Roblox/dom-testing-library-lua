@@ -4,14 +4,11 @@ local exports = {}
 -- TypeScript Version: 3.8
 
 -- local getQueriesForElement = require(script["get-queries-for-element"]).getQueriesForElement
--- local queries = require(script.queries)
--- local queryHelpers = require(script["query-helpers"])
+
 -- local within: typeof(getQueriesForElement)
 
--- exports.queries = queries
--- exports.queryHelpers = queryHelpers
 -- exports.within = within
--- Object.assign(exports, require(script.queries))
+
 local queriesModule = require(script.queries)
 export type QueryByBoundAttribute<T = Instance> = queriesModule.QueryByBoundAttribute<T>
 export type AllByBoundAttribute<T = Instance> = queriesModule.AllByBoundAttribute<T>
@@ -77,7 +74,25 @@ export type queryByTestId<T = Instance> = queriesModule.queryByTestId<T>
 export type queryAllByTestId<T = Instance> = queriesModule.queryAllByTestId<T>
 export type findByTestId<T = Instance> = queriesModule.findByTestId<T>
 export type findAllByTestId<T = Instance> = queriesModule.findAllByTestId<T>
--- Object.assign(exports, require(script["query-helpers"]))
+
+local queryHelpersModule = require(script["query-helpers"])
+export type WithSuggest = queryHelpersModule.WithSuggest
+export type GetErrorFunction<Argument = any> = queryHelpersModule.GetErrorFunction<Argument>
+export type SelectorMatcherOptions = queryHelpersModule.SelectorMatcherOptions
+export type QueryByAttribute = queryHelpersModule.QueryByAttribute
+export type AllByAttribute = queryHelpersModule.AllByAttribute
+export type queryByAttribute = queryHelpersModule.queryByAttribute
+export type queryAllByAttribute = queryHelpersModule.queryAllByAttribute
+export type getElementError = queryHelpersModule.getElementError
+export type QueryMethod<Argument, Return> = queryHelpersModule.QueryMethod<Argument, Return>
+export type QueryBy<Argument> = queryHelpersModule.QueryBy<Argument>
+export type GetAllBy<Argument> = queryHelpersModule.GetAllBy<Argument>
+export type FindAllBy<Argument> = queryHelpersModule.FindAllBy<Argument>
+export type GetBy<Argument> = queryHelpersModule.GetBy<Argument>
+export type FindBy<Argument> = queryHelpersModule.FindBy<Argument>
+export type BuiltQueryMethods<Argument> = queryHelpersModule.BuiltQueryMethods<Argument>
+export type buildQueries<Argument> = queryHelpersModule.buildQueries<Argument>
+
 -- Object.assign(exports, require(script.screen))
 local waitForModule = require(script["wait-for"])
 export type waitForOptions = waitForModule.waitForOptions
@@ -124,7 +139,15 @@ export type Config = configModule.Config
 export type ConfigFn = configModule.ConfigFn
 export type configure = configModule.configure
 export type getConfig = configModule.getConfig
--- Object.assign(exports, require(script.suggestions))
+
+local suggestionsModule = require(script.suggestions)
+
+export type QueryOptions = suggestionsModule.QueryOptions
+export type QueryArgs = suggestionsModule.QueryArgs
+export type Suggestion = suggestionsModule.Suggestion
+export type Variant = suggestionsModule.Variant
+export type Method = suggestionsModule.Method
+export type getSuggestedQuery = suggestionsModule.getSuggestedQuery
 
 local getNodeTextModule = require(script["get-node-text"])
 export type getNodeText = getNodeTextModule.getNodeText

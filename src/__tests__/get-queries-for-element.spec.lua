@@ -3,6 +3,7 @@ return function()
 	local Packages = script.Parent.Parent.Parent
 
 	local LuauPolyfill = require(Packages.LuauPolyfill)
+	local Array = LuauPolyfill.Array
 	local Object = LuauPolyfill.Object
 
 	local document = require(Packages.JsHelpers.document)
@@ -18,7 +19,9 @@ return function()
 		local container = Instance.new("Frame")
 		container.Parent = document
 		local boundQueries = getQueriesForElement(container)
-		jestExpect(Object.keys(boundQueries)).toEqual(Object.keys(queries))
+		-- ROBLOX deviation START: sorting keys, to ensure items match
+		jestExpect(Array.sort(Object.keys(boundQueries))).toEqual(Array.sort(Object.keys(queries)))
+		-- ROBLOX deviation END
 	end)
 
 	it("accepts custom queries", function()

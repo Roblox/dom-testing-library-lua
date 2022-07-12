@@ -12,10 +12,7 @@ local checkContainerType = require(script.Parent.Parent.helpers).checkContainerT
 local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion
 local typesModule = require(Packages.Types)
 type AllByBoundAttribute<T = Instance> = typesModule.AllByBoundAttribute<T>
-
--- ROBLOX FIXME: use correct type when available
--- type GetErrorFunction<T> = typesModule.GetErrorFunction<T>
-type GetErrorFunction<T> = any
+type GetErrorFunction<T> = typesModule.GetErrorFunction<T>
 
 local all_utilsModule = require(script.Parent["all-utils"])
 local queryAllByAttribute = all_utilsModule.queryAllByAttribute
@@ -33,11 +30,11 @@ function queryAllByTestId(...: any)
 	return queryAllByAttribute(getTestIdAttribute(), ...)
 end
 
-local getMultipleError: GetErrorFunction<Array<unknown>>
+local getMultipleError: GetErrorFunction<unknown>
 function getMultipleError(c, id)
 	return ('Found multiple elements by: [%s="%s"]'):format(getTestIdAttribute(), tostring(id))
 end
-local getMissingError: GetErrorFunction<Array<unknown>>
+local getMissingError: GetErrorFunction<unknown>
 function getMissingError(c, id)
 	return ('Unable to find an element by: [%s="%s"]'):format(getTestIdAttribute(), tostring(id))
 end
