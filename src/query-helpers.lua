@@ -75,6 +75,14 @@ local function queryAllByAttribute(
 		trim = trim,
 		normalizer = normalizer,
 	})
+	-- ROBLOX deviation START: we need to verify the property exists in Instance or errors
+	local function getProperty(node: Instance, property: string): any
+		local ok, res = pcall(function()
+			return (node :: any)[property]
+		end)
+		return if not ok then nil else res
+	end
+	-- ROBLOX deviation END
 
 	return Array.filter(
 		querySelectorAll(
@@ -86,7 +94,7 @@ local function queryAllByAttribute(
 			return matcher(
 				-- ROBLOX deviation START: we need to access values as properties or attributes
 				if Array.includes(matchAsProperties, attribute)
-					then (node :: any)[attribute]
+					then getProperty(node, attribute)
 					else node:GetAttribute(attribute),
 				-- ROBLOX deviation END
 				node,
@@ -166,11 +174,7 @@ end
 -- this accepts a getter query function and returns a function which calls
 -- waitFor and passing a function which invokes the getter.
 local function makeFindQuery<QueryFor>(
-	getter: (
-		container: Instance,
-		text: Matcher,
-		options: MatcherOptions
-	) -> QueryFor
+	getter: (container: Instance, text: Matcher, options: MatcherOptions) -> QueryFor
 )
 	return function(container: Instance, text: Matcher, options: MatcherOptions, waitForOptions: WaitForOptions)
 		return waitFor(function()
@@ -188,7 +192,9 @@ local function wrapSingleQueryWithSuggestion<Argument>(
 		local args = { ... }
 		local element = query(container, ...)
 		local ref = (if args[#args] == nil then {} else args[#args]) :: WithSuggest
-		local suggest = if ref.suggest == nil then getConfig().throwSuggestions else ref.suggest
+		local suggest = if typeof(ref) ~= "table" or ref.suggest == nil
+			then getConfig().throwSuggestions
+			else ref.suggest
 
 		if element and suggest then
 			local suggestion = getSuggestedQuery(element, variant)
@@ -273,14 +279,10 @@ local function buildQueries(
 
 	local findAllBy = makeFindQuery(wrapAllByQueryWithSuggestion(getAllBy, debug.info(queryAllBy, "n"), "findAll"))
 	local findBy = makeFindQuery(wrapSingleQueryWithSuggestion(getBy, debug.info(queryAllBy, "n"), "find"))
-	-- ROBLOX FIXME Luau: mixed array
-	return {
-		queryBy :: any,
-		getAllWithSuggestions :: any,
-		getByWithSuggestions :: any,
-		findAllBy :: any,
-		findBy :: any,
-	}
+
+	-- ROBLOX deviation START: return list instead of an array
+	return queryBy, getAllWithSuggestions, getByWithSuggestions, findAllBy, findBy
+	-- ROBLOX deviation END
 end
 
 exports.getElementError = getElementError

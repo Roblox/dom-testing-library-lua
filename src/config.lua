@@ -112,7 +112,11 @@ end
 exports.configure = configure
 
 local function getConfig()
-	return config
+	-- ROBLOX deviation START: get current state of ignore (in a different file beacuse of circular dep)
+	local defaultIgnore = defaultIgnore.getIgnore()
+	-- ROBLOX deviation END
+
+	return Object.assign({}, config, { defaultIgnore = defaultIgnore })
 end
 exports.getConfig = getConfig
 

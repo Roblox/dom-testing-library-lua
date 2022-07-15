@@ -55,14 +55,14 @@ export type FindAllBy<Argument> = QueryMethod<
 export type GetBy<Argument> = QueryMethod<Argument, Instance>
 export type FindBy<Argument> = QueryMethod<Array<Argument | waitForOptions | nil>, Promise<Array<Instance>>>
 
-export type BuiltQueryMethods<Argument> = Array<
-	QueryBy<Argument> | GetAllBy<Argument> | GetBy<Argument> | FindAllBy<Argument> | FindBy<Argument>
->
+-- ROBLOX deviation START: Can't represent list in lua type
+export type BuiltQueryMethods<Argument> = any
+-- ROBLOX deviation END
 
 export type buildQueries<Argument> = (
 	queryAllBy: GetAllBy<Argument>,
 	getMultipleError: GetErrorFunction<Argument>,
 	getMissingError: GetErrorFunction<Argument>
-) -> BuiltQueryMethods<Argument>
+) -> (QueryBy<Argument>, GetAllBy<Argument>, GetBy<Argument>, FindAllBy<Argument>, FindBy<Argument>)
 
 return exports

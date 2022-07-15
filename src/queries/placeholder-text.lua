@@ -12,9 +12,7 @@ local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers
 local checkContainerType = require(script.Parent.Parent.helpers).checkContainerType
 local typesModule = require(Packages.Types)
 type AllByBoundAttribute<T = Instance> = typesModule.AllByBoundAttribute<T>
--- ROBLOX FIXME: use correct type when available
--- type GetErrorFunction<T> = typesModule.GetErrorFunction<T>
-type GetErrorFunction<T> = any
+type GetErrorFunction<Argument = any> = typesModule.GetErrorFunction<Argument>
 local all_utilsModule = require(script.Parent["all-utils"])
 local queryAllByAttribute = all_utilsModule.queryAllByAttribute
 local buildQueries = all_utilsModule.buildQueries
@@ -41,12 +39,14 @@ local queryAllByPlaceholderTextWithSuggestions = wrapAllByQueryWithSuggestion(
 	"queryAll"
 )
 
+-- ROBLOX deviation START: buildQueries returns a list
 local queryByPlaceholderText, getAllByPlaceholderText, getByPlaceholderText, findAllByPlaceholderText, findByPlaceholderText =
-	table.unpack(
-		buildQueries(queryAllByPlaceholderText, getMultipleError, getMissingError),
-		1,
-		5
+	buildQueries(
+		queryAllByPlaceholderText,
+		getMultipleError,
+		getMissingError
 	)
+--ROBLOX deviation END
 
 exports.queryByPlaceholderText = queryByPlaceholderText
 exports.queryAllByPlaceholderText = queryAllByPlaceholderTextWithSuggestions

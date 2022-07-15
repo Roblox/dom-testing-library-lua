@@ -98,11 +98,15 @@ local queryAllByTextWithSuggestions = wrapAllByQueryWithSuggestion(
 	debug.info(queryAllByText, "n"),
 	"queryAll"
 )
-local queryByText, getAllByText, getByText, findAllByText, findByText = table.unpack(
-	buildQueries(queryAllByText, getMultipleError, getMissingError),
-	1,
-	5
+
+-- ROBLOX deviation START: buildQueries returns a list
+local queryByText, getAllByText, getByText, findAllByText, findByText = buildQueries(
+	queryAllByText,
+	getMultipleError,
+	getMissingError
 )
+-- ROBLOX deviation END
+
 exports.queryByText = queryByText
 exports.queryAllByText = queryAllByTextWithSuggestions
 exports.getByText = getByText

@@ -12,8 +12,7 @@ local checkContainerType = require(script.Parent.Parent.helpers).checkContainerT
 local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion
 local typesModule = require(Packages.Types)
 type AllByBoundAttribute<T = Instance> = typesModule.AllByBoundAttribute<T>
-type GetErrorFunction<T> = typesModule.GetErrorFunction<T>
-
+type GetErrorFunction<Argument = any> = typesModule.GetErrorFunction<Argument>
 local all_utilsModule = require(script.Parent["all-utils"])
 local queryAllByAttribute = all_utilsModule.queryAllByAttribute
 local getConfig = all_utilsModule.getConfig
@@ -45,11 +44,13 @@ local queryAllByTestIdWithSuggestions = wrapAllByQueryWithSuggestion(
 	"queryAll"
 )
 
-local queryByTestId, getAllByTestId, getByTestId, findAllByTestId, findByTestId = table.unpack(
-	buildQueries(queryAllByTestId, getMultipleError, getMissingError),
-	1,
-	5
+-- ROBLOX deviation START: buildQueries returns a list
+local queryByTestId, getAllByTestId, getByTestId, findAllByTestId, findByTestId = buildQueries(
+	queryAllByTestId,
+	getMultipleError,
+	getMissingError
 )
+-- ROBLOX deviation END
 
 exports.queryByTestId = queryByTestId
 exports.queryAllByTestId = queryAllByTestIdWithSuggestions

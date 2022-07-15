@@ -14,7 +14,10 @@ local function matches(instance: Instance, patterns: Array<string>, type_: PropO
 			return instance.ClassName:find(pattern) ~= nil
 		elseif type_ == "property" then
 			-- ROBLOX FIXME Luau: will complain when accessing with an indexed property
-			return (instance :: any)[pattern] ~= nil
+			local _, res = pcall(function()
+				return (instance :: any)[pattern]
+			end)
+			return res ~= nil
 		else
 			return instance:GetAttribute(pattern) ~= nil
 		end
