@@ -63,6 +63,9 @@ local function waitFor(callback, ref)
 			local finished = false
 			local promiseStatus = "idle"
 			local usingJestFakeTimers = jestFakeTimersAreEnabled()
+			-- ROBLOX deviation START: added to hold connections to behave like MutationObserver
+			local connections = {}
+			-- ROBLOX deviation END
 
 			-- ROBLOX deviation START: moved things around before usage
 			local overallTimeoutTimer
@@ -74,6 +77,12 @@ local function waitFor(callback, ref)
 				if not usingJestFakeTimers then
 					clearInterval(intervalId)
 					-- observer:disconnect()
+					-- ROBLOX deviation START: disconnect all connections
+					for i = 1, #connections do
+						connections[i]:Disconnect()
+					end
+					connections = {}
+					-- ROBLOX deviation END
 				end
 
 				if Boolean.toJSBoolean(error_) then
@@ -222,16 +231,22 @@ local function waitFor(callback, ref)
 				-- observer = MutationObserver.new(checkRealTimersCallback)
 				-- observer:observe(container, mutationObserverOptions)
 
-				-- ROBLOX deviation Comment: Helper Method
+				-- ROBLOX deviation START: Helper Method to replace MutationObserver
 				local function observeDescendantsAddedRemoved(rbx: Instance, cb: () -> ())
-					rbx.ChildAdded:Connect(function(rbx)
-						observeDescendantsAddedRemoved(rbx, cb)
-						cb()
-					end)
+					table.insert(
+						connections,
+						rbx.ChildAdded:Connect(function(rbx)
+							observeDescendantsAddedRemoved(rbx, cb)
+							cb()
+						end)
+					)
 
-					rbx.ChildRemoved:Connect(function(_rbx)
-						cb()
-					end)
+					table.insert(
+						connections,
+						rbx.ChildRemoved:Connect(function(_rbx)
+							cb()
+						end)
+					)
 				end
 
 				observeDescendantsAddedRemoved(container, checkRealTimersCallback)

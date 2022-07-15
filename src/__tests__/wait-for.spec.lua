@@ -315,7 +315,6 @@ Folder {
 				configure({ getElementError = getElementError })
 				local div = Instance.new("Frame")
 				div.Name = "pretty"
-				-- renderIntoDocument('<div id="pretty">how pretty</div>')
 				renderIntoDocument({ div })
 				local error_ = waitFor(function()
 					error(Error.new("always throws"))
