@@ -27,7 +27,7 @@ Object.assign(exports, require(script["pretty-dom"]))
 local configModule = require(script.config)
 exports.configure = configModule.configure
 exports.getConfig = configModule.getConfig
--- Object.assign(exports, require(script.suggestions))
+Object.assign(exports, require(script.suggestions))
 
 -- "within" reads better in user-code
 -- "getQueriesForElement" reads better in library code

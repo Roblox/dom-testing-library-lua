@@ -3,7 +3,6 @@ local Packages = script.Parent.Parent
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
-local Boolean = LuauPolyfill.Boolean
 local Object = LuauPolyfill.Object
 local Set = LuauPolyfill.Set
 local String = LuauPolyfill.String
@@ -28,17 +27,7 @@ type QueryMethod<Argument, Return> = typesModule.QueryMethod<Argument, Return>
 type Variant = typesModule.Variant
 type WaitForOptions = typesModule.waitForOptions
 type WithSuggest = typesModule.WithSuggest
-
--- ROBLOX TODO START: Mocking this because suggestions are not ported yet
-type Suggestion = typesModule.Suggestion
-local getSuggestedQuery = function(element, variant, method: any?)
-	if variant == nil then
-		variant = "get"
-	end
-
-	return {} :: Suggestion
-end
--- ROBLOX TODO END
+local getSuggestedQuery = require(script.Parent.suggestions).getSuggestedQuery
 
 local matchesModule = require(script.Parent.matches)
 local fuzzyMatches = matchesModule.fuzzyMatches
@@ -198,10 +187,7 @@ local function wrapSingleQueryWithSuggestion<Argument>(
 
 		if element and suggest then
 			local suggestion = getSuggestedQuery(element, variant)
-			if
-				Boolean.toJSBoolean(suggestion)
-				and not String.endsWith(queryAllByName, suggestion.queryName :: string)
-			then
+			if suggestion ~= nil and not String.endsWith(queryAllByName, suggestion.queryName :: string) then
 				error(getSuggestionError(suggestion, container))
 			end
 		end
@@ -235,11 +221,8 @@ local function wrapAllByQueryWithSuggestion<
 			local uniqueSuggestionMessages = Array.concat(
 				{},
 				Array.from(Set.new(Array.map(els, function(element)
-					return (
-						if typeof(getSuggestedQuery(element, variant)) == "table"
-							then getSuggestedQuery(element, variant).toString()
-							else nil
-					) :: string
+					local suggestion = getSuggestedQuery(element, variant)
+					return (if suggestion ~= nil then suggestion.toString() else suggestion) :: string
 				end)))
 			) :: Array<any>
 			if
