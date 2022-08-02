@@ -36,6 +36,6 @@ exports.within = getQueriesForElement
 -- export query utils under a namespace for convenience:
 exports.queries = queries
 exports.queryHelpers = queryHelpers
-exports.document = require(Packages.JsHelpers.document)
+exports.document = require(script.jsHelpers.document)
 
 return exports

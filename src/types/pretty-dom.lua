@@ -1,5 +1,5 @@
 -- ROBLOX upstream: https://github.com/testing-library/dom-testing-library/blob/v8.14.0/types/pretty-dom.d.ts
-local Packages = script.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 
 local exports = {}
 

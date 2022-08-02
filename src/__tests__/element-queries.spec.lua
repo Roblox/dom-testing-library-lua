@@ -4,7 +4,7 @@ return function()
 
 	local RegExp = require(Packages.LuauRegExp)
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
 	local configure = require(script.Parent.Parent.config).configure

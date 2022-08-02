@@ -9,7 +9,7 @@ type Promise<T> = LuauPolyfill.Promise<T>
 
 local Promise = require(Packages.Promise)
 
-local isCallable = require(Packages.JsHelpers.isCallable)
+local isCallable = require(script.Parent.jsHelpers.isCallable)
 
 local exports = {}
 

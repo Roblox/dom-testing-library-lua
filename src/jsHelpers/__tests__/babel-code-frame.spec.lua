@@ -1,11 +1,11 @@
 -- ROBLOX upstream: https://github.com/babel/babel/blob/v7.18.5/packages/babel-code-frame/test/index.js
 return function()
-	local Packages = script.Parent.Parent.Parent
+	local Packages = script.Parent.Parent.Parent.Parent
 
 	local LuauPolyfill = require(Packages.LuauPolyfill)
 	local Array = LuauPolyfill.Array
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
 	local HttpService = game:GetService("HttpService")

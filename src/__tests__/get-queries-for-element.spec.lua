@@ -6,9 +6,9 @@ return function()
 	local Array = LuauPolyfill.Array
 	local Object = LuauPolyfill.Object
 
-	local document = require(Packages.JsHelpers.document)
+	local document = require(script.Parent.Parent.jsHelpers.document)
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 

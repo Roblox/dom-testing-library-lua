@@ -7,7 +7,7 @@ local Error = LuauPolyfill.Error
 local Object = LuauPolyfill.Object
 type Object = LuauPolyfill.Object
 
-local dispatchEvent = require(Packages.JsHelpers.dispatchEvent)
+local dispatchEvent = require(script.Parent.jsHelpers.dispatchEvent)
 
 local exports = {}
 

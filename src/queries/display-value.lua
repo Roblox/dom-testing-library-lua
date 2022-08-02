@@ -5,7 +5,7 @@ local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
 type Object = LuauPolyfill.Object
 
-local querySelectorAll = require(Packages.JsHelpers.querySelectors).querySelectorAll
+local querySelectorAll = require(script.Parent.Parent.jsHelpers.querySelectors).querySelectorAll
 
 type unknown = any --[[ ROBLOX FIXME: adding `unknown` type alias to make it easier to use Luau unknown equivalent when supported ]]
 
@@ -13,7 +13,7 @@ local exports = {}
 
 local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion
 local checkContainerType = require(script.Parent.Parent.helpers).checkContainerType
-local typesModule = require(Packages.Types)
+local typesModule = require(script.Parent.Parent.types)
 type AllByBoundAttribute = typesModule.AllByBoundAttribute
 type GetErrorFunction<Argument = any> = typesModule.GetErrorFunction<Argument>
 type Matcher = typesModule.Matcher

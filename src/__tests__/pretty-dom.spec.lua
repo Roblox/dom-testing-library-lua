@@ -5,11 +5,11 @@ return function()
 	local LuauPolyfill = require(Packages.LuauPolyfill)
 	local console = LuauPolyfill.console
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 
-	local document = require(Packages.JsHelpers.document)
+	local document = require(script.Parent.Parent.jsHelpers.document)
 
 	local pretty_domModule = require(script.Parent.Parent["pretty-dom"])
 	local prettyDOM = pretty_domModule.prettyDOM

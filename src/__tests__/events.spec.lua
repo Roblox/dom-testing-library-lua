@@ -5,11 +5,11 @@ return function()
 	local LuauPolyfill = require(Packages.LuauPolyfill)
 	local Array = LuauPolyfill.Array
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 
-	local document = require(Packages.JsHelpers.document)
+	local document = require(script.Parent.Parent.jsHelpers.document)
 
 	local event_mapModule = require(script.Parent.Parent["event-map"])
 	local _eventMap = event_mapModule.eventMap

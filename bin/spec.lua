@@ -2,13 +2,13 @@ local Root = game:GetService("ReplicatedStorage")
 
 local Packages = Root.Packages
 
-local JestGlobals = require(Packages.Dev.JestGlobals)
+local JestGlobals = require(Packages.JestGlobals)
 
 local TestEZ = JestGlobals.TestEZ
 
 -- Run all tests, collect results, and report to stdout.
 TestEZ.TestBootstrap:run(
-	{ Packages.DomTestingLibrary, Packages.JsHelpers },
+	{ Packages.DomTestingLibrary },
 	TestEZ.Reporters.pipe({
 		TestEZ.Reporters.JestDefaultReporter,
 		TestEZ.Reporters.JestSummaryReporter,

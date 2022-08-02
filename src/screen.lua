@@ -7,8 +7,8 @@ local Object = LuauPolyfill.Object
 local console = LuauPolyfill.console
 type Array<T> = LuauPolyfill.Array<T>
 
-local document = require(Packages.JsHelpers.document)
-local TypeError = require(Packages.JsHelpers.typeError)
+local document = require(script.Parent.jsHelpers.document)
+local TypeError = require(script.Parent.jsHelpers.typeError)
 
 local exports = {}
 

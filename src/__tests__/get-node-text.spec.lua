@@ -1,7 +1,7 @@
 -- ROBLOX upstream: https://github.com/testing-library/dom-testing-library/blob/v8.14.0/src/__tests__/get-node-text.js
 return function()
 	local Packages = script.Parent.Parent.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local getNodeText = require(script.Parent.Parent["get-node-text"]).getNodeText
 	local render = require(script.Parent.helpers["test-utils"])(afterEach).render

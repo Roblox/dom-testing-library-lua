@@ -1,5 +1,5 @@
 -- ROBLOX upstream: https://github.com/testing-library/dom-testing-library/blob/v8.14.0/types/config.d.ts
-local Packages = script.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
 type Error = LuauPolyfill.Error

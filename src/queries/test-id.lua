@@ -10,7 +10,7 @@ local exports = {}
 
 local checkContainerType = require(script.Parent.Parent.helpers).checkContainerType
 local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion
-local typesModule = require(Packages.Types)
+local typesModule = require(script.Parent.Parent.types)
 type AllByBoundAttribute<T = Instance> = typesModule.AllByBoundAttribute<T>
 type GetErrorFunction<Argument = any> = typesModule.GetErrorFunction<Argument>
 local all_utilsModule = require(script.Parent["all-utils"])

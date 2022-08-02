@@ -1,5 +1,5 @@
 -- ROBLOX upstream: https://github.com/babel/babel/blob/v7.18.5/packages/babel-code-frame/src/index.ts
-local Packages = script.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array

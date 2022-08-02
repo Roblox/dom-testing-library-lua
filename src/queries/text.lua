@@ -6,7 +6,7 @@ local Array = LuauPolyfill.Array
 type Array<T> = LuauPolyfill.Array<T>
 type Object = LuauPolyfill.Object
 
-local querySelectorsModule = require(Packages.JsHelpers.querySelectors)
+local querySelectorsModule = require(script.Parent.Parent.jsHelpers.querySelectors)
 local matchesInstance = querySelectorsModule.matches
 local querySelectorAll = querySelectorsModule.querySelectorAll
 
@@ -16,7 +16,7 @@ local exports = {}
 
 local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion
 local checkContainerType = require(script.Parent.Parent.helpers).checkContainerType
-local typesModule = require(Packages.Types)
+local typesModule = require(script.Parent.Parent.types)
 type AllByText<T = Instance> = typesModule.AllByText<T>
 type GetErrorFunction<Argument = any> = typesModule.GetErrorFunction<Argument>
 type SelectorMatcherOptions = typesModule.SelectorMatcherOptions

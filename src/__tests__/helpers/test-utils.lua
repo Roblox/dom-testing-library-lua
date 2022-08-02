@@ -7,7 +7,7 @@ return function(afterEach)
 	type Array<T> = LuauPolyfill.Array<T>
 	type Object = LuauPolyfill.Object
 
-	local document = require(Packages.JsHelpers.document)
+	local document = require(script.Parent.Parent.Parent.jsHelpers.document)
 
 	local exports = {}
 

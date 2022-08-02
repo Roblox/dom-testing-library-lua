@@ -7,7 +7,7 @@ return function()
 
 	local Promise = require(Packages.Promise)
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
 	local domTestingModule = require(script.Parent.Parent)
@@ -19,7 +19,7 @@ return function()
 		domTestingModule.queryByTestId,
 		domTestingModule.waitFor
 
-	local querySelector = require(Packages.JsHelpers.querySelectors).querySelector
+	local querySelector = require(script.Parent.Parent.jsHelpers.querySelectors).querySelector
 
 	local function getExampleDOM()
 		local div = Instance.new("Frame")

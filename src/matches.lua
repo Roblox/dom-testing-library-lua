@@ -16,7 +16,7 @@ local exports = {}
 local matchRegExp
 -- ROBLOX deviation END
 
-local typesModule = require(script.Parent.Parent.Types)
+local typesModule = require(script.Parent.types)
 type Matcher = typesModule.Matcher
 type NormalizerFn = typesModule.NormalizerFn
 type NormalizerOptions = typesModule.NormalizerOptions

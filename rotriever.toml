@@ -14,6 +14,4 @@ Promise = "github.com/evaera/roblox-lua-promise@4.0.0"
 JestGetType = { git = "https://github.com/roblox/jest-roblox.git", rev="master", package="JestGetType"}
 PrettyFormat = { git = "https://github.com/roblox/jest-roblox.git", rev="master", package="PrettyFormat"}
 RobloxShared = { git = "https://github.com/roblox/jest-roblox.git", rev="master", package="RobloxShared"}
-
-[dev_dependencies]
 JestGlobals = { git = "https://github.com/roblox/jest-roblox.git", rev="master" }

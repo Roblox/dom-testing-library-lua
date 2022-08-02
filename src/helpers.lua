@@ -6,8 +6,8 @@ local Boolean = LuauPolyfill.Boolean
 local Error = LuauPolyfill.Error
 type Object = LuauPolyfill.Object
 
-local TypeError = require(Packages.JsHelpers.typeError)
-local document = require(Packages.JsHelpers.document)
+local TypeError = require(script.Parent.jsHelpers.typeError)
+local document = require(script.Parent.jsHelpers.document)
 
 local exports = {}
 
@@ -19,7 +19,7 @@ local TEXT_NODE = 3
   Lua implentation may be different, and require a different check
 ]]
 local function jestFakeTimersAreEnabled()
-	local jest = require(Packages.Dev.JestGlobals).jest
+	local jest = require(Packages.JestGlobals).jest
 	-- ROBLOX deviation START: workaround to determine if fake timers are running
 	-- local setTimeout = require(Packages.LuauPolyfill).setTimeout :: any
 	--[[ istanbul ignore else ]]

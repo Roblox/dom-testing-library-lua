@@ -1,5 +1,5 @@
 -- ROBLOX upstream: no upstream
-local Packages = script.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
 type Array<T> = LuauPolyfill.Array<T>

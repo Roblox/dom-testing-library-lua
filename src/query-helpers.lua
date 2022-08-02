@@ -9,7 +9,7 @@ local String = LuauPolyfill.String
 type Array<T> = LuauPolyfill.Array<T>
 type Object = LuauPolyfill.Object
 
-local querySelectorAll = require(Packages.JsHelpers.querySelectors).querySelectorAll
+local querySelectorAll = require(script.Parent.jsHelpers.querySelectors).querySelectorAll
 
 local exports = {}
 
@@ -19,7 +19,7 @@ local matchAsProperties = {
 }
 -- ROBLOX deviation END
 
-local typesModule = require(script.Parent.Parent.Types)
+local typesModule = require(script.Parent.types)
 type GetErrorFunction<Argument = any> = typesModule.GetErrorFunction<Argument>
 type Matcher = typesModule.Matcher
 type MatcherOptions = typesModule.MatcherOptions

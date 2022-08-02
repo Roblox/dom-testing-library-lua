@@ -9,14 +9,14 @@ return function()
 
 	local Promise = require(Packages.Promise)
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
 	local waitForElementToBeRemoved =
 		require(script.Parent.Parent["wait-for-element-to-be-removed"]).waitForElementToBeRemoved
 	local renderIntoDocument = require(script.Parent.helpers["test-utils"])(afterEach).renderIntoDocument
 
-	local document = require(Packages.JsHelpers.document)
+	local document = require(script.Parent.Parent.jsHelpers.document)
 
 	it("resolves on mutation only when the element is removed", function()
 		return Promise.resolve()

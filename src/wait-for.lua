@@ -12,9 +12,9 @@ type Error = LuauPolyfill.Error
 
 local Promise = require(Packages.Promise)
 
-local isCallable = require(Packages.JsHelpers.isCallable)
-local TypeError = require(Packages.JsHelpers.typeError)
-local waitForTypes = require(Packages.Types["wait-for"])
+local isCallable = require(script.Parent.jsHelpers.isCallable)
+local TypeError = require(script.Parent.jsHelpers.typeError)
+local waitForTypes = require(script.Parent.types["wait-for"])
 type waitForOptions = waitForTypes.waitForOptions
 
 local exports = {}
@@ -153,7 +153,7 @@ local function waitFor(callback, ref)
 			-- ROBLOX deviation END
 
 			if usingJestFakeTimers then
-				local jest = require(Packages.Dev.JestGlobals).jest
+				local jest = require(Packages.JestGlobals).jest
 
 				local advanceTimersWrapper = getConfig().unstable_advanceTimersWrapper
 				checkCallback()

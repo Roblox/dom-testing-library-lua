@@ -7,15 +7,15 @@ return function()
 
 	local RegExp = require(Packages.LuauRegExp)
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 
-	local typesModule = require(Packages.Types)
+	local typesModule = require(script.Parent.Parent.types)
 	type Suggestion = typesModule.Suggestion
 
-	local querySelector = require(Packages.JsHelpers.querySelectors).querySelector
-	local querySelectorAll = require(Packages.JsHelpers.querySelectors).querySelectorAll
+	local querySelector = require(script.Parent.Parent.jsHelpers.querySelectors).querySelector
+	local querySelectorAll = require(script.Parent.Parent.jsHelpers.querySelectors).querySelectorAll
 
 	local configure = require(script.Parent.Parent.config).configure
 	local screen = require(script.Parent.Parent.screen).screen

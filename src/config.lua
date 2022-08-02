@@ -19,7 +19,7 @@ type Partial<T> = Object
 
 local exports = {}
 
-local configModule = require(script.Parent.Parent.Types.config)
+local configModule = require(script.Parent.types.config)
 type Config = configModule.Config
 type ConfigFn = configModule.ConfigFn
 local prettyDOM = require(script.Parent["pretty-dom"]).prettyDOM

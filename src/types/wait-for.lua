@@ -1,4 +1,4 @@
-local Packages = script.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 local LuauPolyfill = require(Packages.LuauPolyfill)
 type Error = LuauPolyfill.Error
 type Object = LuauPolyfill.Object

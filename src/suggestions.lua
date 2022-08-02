@@ -9,7 +9,7 @@ local console = LuauPolyfill.console
 
 local RegExp = require(Packages.LuauRegExp)
 
-local SuggestionTypes = require(Packages.Types.suggestions)
+local SuggestionTypes = require(script.Parent.types.suggestions)
 type Suggestion = SuggestionTypes.Suggestion
 type Method = SuggestionTypes.Method
 

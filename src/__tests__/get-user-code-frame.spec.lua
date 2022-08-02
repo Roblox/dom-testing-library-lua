@@ -5,13 +5,13 @@ return function()
 	local LuauPolyfill = require(Packages.LuauPolyfill)
 	local Error = LuauPolyfill.Error
 
-	local stripAnsi = require(Packages.JsHelpers["strip-ansi"])
+	local stripAnsi = require(script.Parent.Parent.jsHelpers["strip-ansi"])
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 
-	local fs = require(Packages.JsHelpers.fs)
+	local fs = require(script.Parent.Parent.jsHelpers.fs)
 	local codeFrame = require(script.Parent.Parent["get-user-code-frame"])
 
 	-- ROBLOX deviation START: different error format, doesn't contain column info
