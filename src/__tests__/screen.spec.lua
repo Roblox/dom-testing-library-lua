@@ -116,7 +116,7 @@ Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
-  "Parent": nil,
+  "Parent": "ScreenGui" [ScreenGui],
   "TextButton": TextButton {
     "AbsolutePosition": Vector2(0, 0),
     "AbsoluteRotation": 0,

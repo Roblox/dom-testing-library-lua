@@ -11,6 +11,8 @@ return function()
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 
+	local CollectionService = game:GetService("CollectionService")
+
 	-- ROBLOX deviation START: not exactly __dirname, but enough to match
 	local __dirname = "wait%-for%.spec"
 	-- ROBLOX deviation END
@@ -180,7 +182,7 @@ return function()
 
 	it("throws nice error if provided callback is not a function", function()
 		local div = Instance.new("Frame")
-		div:SetAttribute("data-testid", "div")
+		CollectionService:AddTag(div, "data-testid=div")
 		local queryByTestId = renderIntoDocument({ div }).queryByTestId
 		local someElement = queryByTestId("div")
 		jestExpect(someElement).toBe(div)
@@ -214,7 +216,7 @@ Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
-  "Parent": nil,
+  "Parent": "ScreenGui" [ScreenGui],
   "pretty": Frame {
     "AbsolutePosition": Vector2(0, 0),
     "AbsoluteRotation": 0,
@@ -384,7 +386,7 @@ Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
-  "Parent": nil,
+  "Parent": "ScreenGui" [ScreenGui],
 }]])
 				-- ROBLOX deviation END
 			end)

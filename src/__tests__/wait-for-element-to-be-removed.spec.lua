@@ -12,6 +12,8 @@ return function()
 	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
+	local CollectionService = game:GetService("CollectionService")
+
 	local waitForElementToBeRemoved =
 		require(script.Parent.Parent["wait-for-element-to-be-removed"]).waitForElementToBeRemoved
 	local renderIntoDocument = require(script.Parent.helpers["test-utils"])(afterEach).renderIntoDocument
@@ -22,9 +24,9 @@ return function()
 		return Promise.resolve()
 			:andThen(function()
 				local div1 = Instance.new("Frame")
-				div1:SetAttribute("data-testid", "div")
+				CollectionService:AddTag(div1, "data-testid=div")
 				local div2 = Instance.new("Frame")
-				div2:SetAttribute("data-testid", "div")
+				CollectionService:AddTag(div2, "data-testid=div")
 				local queryAllByTestId = renderIntoDocument({ div1, div2 }).queryAllByTestId
 				local divs = queryAllByTestId("div")
 				-- first mutation
@@ -55,7 +57,7 @@ return function()
 		return Promise.resolve()
 			:andThen(function()
 				local div1 = Instance.new("Frame")
-				div1:SetAttribute("data-testid", "div")
+				CollectionService:AddTag(div1, "data-testid=div")
 				local getByTestId = renderIntoDocument({ div1 }).getByTestId
 				local div = getByTestId("div")
 				setTimeout(function()
@@ -80,7 +82,7 @@ return function()
 
 	it("requires element's parent to exist first", function()
 		local div1 = Instance.new("Frame")
-		div1:SetAttribute("data-testid", "div")
+		CollectionService:AddTag(div1, "data-testid=div")
 
 		local getByTestId = renderIntoDocument({ div1 }).getByTestId
 		local div = getByTestId("div")
@@ -129,7 +131,7 @@ return function()
 
 	it("after successful removal, fullfills promise with empty value (undefined)", function()
 		local div1 = Instance.new("Frame")
-		div1:SetAttribute("data-testid", "div")
+		CollectionService:AddTag(div1, "data-testid=div")
 		local getByTestId = renderIntoDocument({ div1 }).getByTestId
 		local div = getByTestId("div")
 		local waitResult = waitForElementToBeRemoved(function()
@@ -184,7 +186,7 @@ return function()
 		return Promise.resolve()
 			:andThen(function()
 				local div1 = Instance.new("Frame")
-				div1:SetAttribute("data-testid", "div")
+				CollectionService:AddTag(div1, "data-testid=div")
 				local queryByTestId = renderIntoDocument({ div1 }).queryByTestId
 				local div = queryByTestId("div")
 				setTimeout(function()
@@ -201,9 +203,9 @@ return function()
 			return Promise.resolve()
 				:andThen(function()
 					local div1_ = Instance.new("Frame")
-					div1_:SetAttribute("data-testid", "div")
+					CollectionService:AddTag(div1_, "data-testid=div")
 					local div2_ = Instance.new("Frame")
-					div2_:SetAttribute("data-testid", "div")
+					CollectionService:AddTag(div2_, "data-testid=div")
 					local queryAllByTestId = renderIntoDocument({ div1_, div2_ }).queryAllByTestId
 					local div1, div2 = table.unpack(queryAllByTestId("div"), 1, 2)
 					setTimeout(function()

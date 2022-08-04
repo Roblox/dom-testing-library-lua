@@ -7,6 +7,8 @@ return function()
 	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
+	local CollectionService = game:GetService("CollectionService")
+
 	local configure = require(script.Parent.Parent.config).configure
 
 	-- ROBLOX deviation START: to restore config
@@ -898,7 +900,7 @@ Step
 
 		it("can get elements by test id", function()
 			local div = Instance.new("Frame")
-			div:SetAttribute("data-testid", "firstName")
+			CollectionService:AddTag(div, "data-testid=firstName")
 			local queryByTestId = render({ div }).queryByTestId
 			jestExpect(queryByTestId("firstName")).toBeTruthy()
 			jestExpect(queryByTestId(RegExp("first"))).toBeTruthy()
@@ -914,14 +916,14 @@ Step
 
 		it("queryByTestId matches case with non-string matcher", function()
 			local span = Instance.new("TextLabel")
-			span:SetAttribute("data-testid", "1")
+			CollectionService:AddTag(span, "data-testid=1")
 			local queryByTestId = render({ span }).queryByTestId
 			jestExpect(queryByTestId(1)).toBeTruthy()
 		end)
 
 		it("can override test id attribute", function()
 			local div = Instance.new("Frame")
-			div:SetAttribute("data-my-test-id", "theTestId")
+			CollectionService:AddTag(div, "data-my-test-id=theTestId")
 			local queryByTestId = render({ div }).queryByTestId
 			configure({ testIdAttribute = "data-my-test-id" })
 			jestExpect(queryByTestId("theTestId")).toBeTruthy()
@@ -1041,11 +1043,11 @@ Step
 	it("getAll* matchers return an array", function()
 		local div1 = Instance.new("Frame")
 		local img1 = Instance.new("ImageLabel")
-		img1:SetAttribute("data-testid", "poster")
+		CollectionService:AddTag(img1, "data-testid=poster")
 		local img2 = Instance.new("ImageLabel")
-		img2:SetAttribute("data-testid", "poster")
+		CollectionService:AddTag(img2, "data-testid=poster")
 		local img3 = Instance.new("ImageLabel")
-		img3:SetAttribute("data-testid", "poster")
+		CollectionService:AddTag(img3, "data-testid=poster")
 		local p = Instance.new("TextLabel")
 		p.Text = "Where to next?"
 		local input = Instance.new("TextBox")
@@ -1199,7 +1201,7 @@ Step
 	it("using jest helpers to assert element states", function()
 		local span = Instance.new("TextLabel")
 		span.Text = "2"
-		span:SetAttribute("data-testid", "count-value")
+		CollectionService:AddTag(span, "data-testid=count-value")
 
 		local queryByTestId = render({ span }).queryByTestId
 		-- other ways to assert your test cases, but you don't need all of them.
@@ -1232,7 +1234,7 @@ Step
 		local button = Instance.new("TextButton")
 		button.Text = "OK"
 		button.Active = false
-		button:SetAttribute("data-testid", "ok-button")
+		CollectionService:AddTag(button, "data-testid=ok-button")
 		button:SetAttribute("type", "submit")
 		local getByTestId = render({ button }).getByTestId
 
@@ -1263,11 +1265,11 @@ Step
 	it("using jest helpers to check element class names", function()
 		local div = Instance.new("Frame")
 		local button1 = Instance.new("TextButton")
-		button1:SetAttribute("data-testid", "delete-button")
+		CollectionService:AddTag(button1, "data-testid=delete-button")
 		button1:SetAttribute("class", "btn extra btn-danger")
 		button1.Text = "Delete item"
 		local button2 = Instance.new("TextButton")
-		button2:SetAttribute("data-testid", "cancel-button")
+		CollectionService:AddTag(button2, "data-testid=cancel-button")
 		button2:SetAttribute("class", "btn")
 		button2.Text = "Cancel"
 
@@ -1425,7 +1427,7 @@ Step
 		local div = Instance.new("Frame")
 		local input = Instance.new("TextBox")
 		input.PlaceholderText = "name"
-		input:SetAttribute("data-testid", "name")
+		CollectionService:AddTag(input, "data-testid=name")
 		input.Text = "Mercury"
 		input.Parent = div
 		local ref = renderIntoDocument({ div })

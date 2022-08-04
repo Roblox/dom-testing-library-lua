@@ -297,7 +297,7 @@ Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
-  "Parent": nil,
+  "Parent": "ScreenGui" [ScreenGui],
   "Frame": Frame {
     "AbsolutePosition": Vector2(0, 0),
     "AbsoluteRotation": 0,
@@ -400,7 +400,7 @@ Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
-  "Parent": nil,
+  "Parent": "ScreenGui" [ScreenGui],
 }]])
 	end)
 
@@ -716,7 +716,7 @@ Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
-  "Parent": nil,
+  "Parent": "ScreenGui" [ScreenGui],
   "Frame": Frame {
     "AbsolutePosition": Vector2(0, 0),
     "AbsoluteRotation": 0,
@@ -878,7 +878,7 @@ Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
-  "Parent": nil,
+  "Parent": "ScreenGui" [ScreenGui],
   "Frame": Frame {
     "AbsolutePosition": Vector2(0, 0),
     "AbsoluteRotation": 0,

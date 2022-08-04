@@ -36,6 +36,10 @@ local makeNormalizer = matchesModule.makeNormalizer
 local waitFor = require(script.Parent["wait-for"]).waitFor
 local getConfig = require(script.Parent.config).getConfig
 
+-- ROBLOX deviation START: helper fn
+local getNodeTestId = require(script.Parent["get-node-test-id"]).getNodeTestId
+-- ROBLOX deviation END
+
 local function getElementError(message: string | nil, container: Instance)
 	return getConfig().getElementError(message, container)
 end
@@ -77,13 +81,16 @@ local function queryAllByAttribute(
 		querySelectorAll(
 			container,
 			{ attribute },
-			if Array.includes(matchAsProperties, attribute) then "property" else "attribute"
+			if Array.includes(matchAsProperties, attribute)
+				then "property"
+				else if getConfig().testIdAttribute == attribute then "tag" else "attribute"
 		),
 		function(node: Instance)
 			return matcher(
-				-- ROBLOX deviation START: we need to access values as properties or attributes
+				-- ROBLOX deviation START: we need to access values as properties, attributes or tags
 				if Array.includes(matchAsProperties, attribute)
 					then getProperty(node, attribute)
+					elseif getConfig().testIdAttribute == attribute then getNodeTestId(node)
 					else node:GetAttribute(attribute),
 				-- ROBLOX deviation END
 				node,

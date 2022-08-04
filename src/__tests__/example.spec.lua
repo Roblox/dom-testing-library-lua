@@ -10,6 +10,8 @@ return function()
 	local JestGlobals = require(Packages.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
+	local CollectionService = game:GetService("CollectionService")
+
 	local domTestingModule = require(script.Parent.Parent)
 	local fireEvent, getByPlaceholderText, getByText, getByTestId, queryByTestId, waitFor =
 		domTestingModule.fireEvent,
@@ -38,7 +40,7 @@ return function()
 			setTimeout(function()
 				local printedUsernameContainer = Instance.new("Frame")
 				local inner = Instance.new("TextLabel")
-				inner:SetAttribute("data-testid", "printed-username")
+				CollectionService:AddTag(inner, "data-testid=printed-username")
 				inner.Text = input.Text
 				inner.Parent = printedUsernameContainer
 				printedUsernameContainer.Parent = div

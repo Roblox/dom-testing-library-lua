@@ -16,6 +16,7 @@ return function()
 
 	local querySelector = require(script.Parent.Parent.jsHelpers.querySelectors).querySelector
 	local querySelectorAll = require(script.Parent.Parent.jsHelpers.querySelectors).querySelectorAll
+	local CollectionService = game:GetService("CollectionService")
 
 	local configure = require(script.Parent.Parent.config).configure
 	local screen = require(script.Parent.Parent.screen).screen
@@ -82,11 +83,11 @@ return function()
 
 	it("does not suggest query that would give a different element", function()
 		local div1 = Instance.new("Frame")
-		div1:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(div1, "data-testid=foo")
 		local img1 = Instance.new("ImageLabel")
 		img1.Parent = div1
 		local div2 = Instance.new("Frame")
-		div2:SetAttribute("data-testid", "bar")
+		CollectionService:AddTag(div2, "data-testid=bar")
 		local a1 = Instance.new("TextLabel")
 		a1.Text = ""
 		local div3 = Instance.new("Frame")
@@ -94,7 +95,7 @@ return function()
 		img2.Parent = div3
 		div3.Parent = a1
 		local a2 = Instance.new("TextLabel")
-		a2:SetAttribute("data-testid", "baz")
+		CollectionService:AddTag(a2, "data-testid=baz")
 		a2.Text = ""
 		local h1 = Instance.new("TextLabel")
 		h1.Text = "link text"
@@ -135,9 +136,9 @@ return function()
 
 	it("should not suggest if the suggestion would give different results", function()
 		local input = Instance.new("TextBox")
-		input:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(input, "data-testid=foo")
 		local span = Instance.new("TextLabel")
-		span:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(span, "data-testid=foo")
 		span.Text = ""
 		renderIntoDocument({ input, span })
 		jestExpect(function()
@@ -158,10 +159,10 @@ return function()
 
 	it("should not suggest if there would be mixed suggestions", function()
 		local button = Instance.new("TextButton")
-		button:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(button, "data-testid=foo")
 		button.Text = "submit"
 		local input = Instance.new("TextBox")
-		input:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(input, "data-testid=foo")
 		input:SetAttribute("id", "foo")
 		input.Text = "submit"
 		local label = Instance.new("TextLabel")
@@ -175,10 +176,10 @@ return function()
 
 	it("should not suggest when suggest is turned off for a query", function()
 		local button1 = Instance.new("TextButton")
-		button1:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(button1, "data-testid=foo")
 		button1.Text = "submit"
 		local button2 = Instance.new("TextButton")
-		button2:SetAttribute("data-testid", "foot")
+		CollectionService:AddTag(button2, "data-testid=foot")
 		button2.Text = "another"
 		renderIntoDocument({ button1, button2 })
 		jestExpect(function()
@@ -280,7 +281,7 @@ return function()
 		local p = Instance.new("TextLabel")
 		p.Text = "Loading ... (1)"
 		local img = Instance.new("ImageLabel")
-		img:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(img, "data-testid=foo")
 
 		local container = renderIntoDocument({ label, input, p, img }).container
 		-- ROBLOX deviation START: ByRole, ByAltText not available
@@ -413,7 +414,7 @@ return function()
 	it("should suggest getByPlaceholderText", function()
 		local input = Instance.new("TextBox")
 		input:SetAttribute("type", "password")
-		input:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(input, "data-testid=foo")
 		input.PlaceholderText = "Password"
 		renderIntoDocument({ input })
 		jestExpect(function()
@@ -424,7 +425,7 @@ return function()
 	it("should suggest getByText for simple elements", function()
 		local div = Instance.new("TextLabel")
 		div.Text = "hello there"
-		div:SetAttribute("data-testid", "foo")
+		CollectionService:AddTag(div, "data-testid=foo")
 		renderIntoDocument({ div })
 		jestExpect(function()
 			return screen.getByTestId("foo")
@@ -434,7 +435,7 @@ return function()
 	it("should suggest getByDisplayValue", function()
 		local input = Instance.new("TextBox")
 		input:SetAttribute("id", "password")
-		input:SetAttribute("data-testid", "password")
+		CollectionService:AddTag(input, "data-testid=password")
 		renderIntoDocument({ input })
 		input.Text = "Prine" -- RIP John Prine
 		jestExpect(function()
@@ -582,7 +583,7 @@ return function()
 		local input_ = Instance.new("TextBox")
 		input_.PlaceholderText = "placeholder"
 		input_.Text = "value"
-		input_:SetAttribute("data-testid", "testid")
+		CollectionService:AddTag(input_, "data-testid=testid")
 		local button_ = Instance.new("TextButton")
 		button_.Text = "button"
 		local container = render({ label, input_, button_ }).container
@@ -681,7 +682,7 @@ return function()
 		local input_ = Instance.new("TextBox")
 		input_.PlaceholderText = "placeholder"
 		input_.Text = "value"
-		input_:SetAttribute("data-test", "testid")
+		CollectionService:AddTag(input_, "data-test=testid")
 		local button = Instance.new("TextButton")
 		button.Text = "button"
 		local container = render({ label, input_, button }).container

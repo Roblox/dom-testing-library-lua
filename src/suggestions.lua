@@ -9,6 +9,10 @@ local console = LuauPolyfill.console
 
 local RegExp = require(Packages.LuauRegExp)
 
+-- ROBLOX deviation START: helper fn
+local getNodeTestId = require(script.Parent["get-node-test-id"]).getNodeTestId
+-- ROBLOX deviation END
+
 local SuggestionTypes = require(script.Parent.types.suggestions)
 type Suggestion = SuggestionTypes.Suggestion
 type Method = SuggestionTypes.Method
@@ -158,10 +162,12 @@ local function getSuggestedQuery(element: Instance, variant_: string?, method: M
 	-- 	return makeSuggestion("Title", element, title, { variant = variant })
 	-- end
 	-- ROBLOX TODO END
-	local testId = element:GetAttribute(getConfig().testIdAttribute)
-	if canSuggest("TestId", method, testId) then
+	-- ROBLOX deviation START: adapt for tags
+	local testId = getNodeTestId(element)
+	if testId and canSuggest("TestId", method, testId) then
 		return makeSuggestion("TestId", element, testId, { variant = variant })
 	end
+	-- ROBLOX deviation END
 	return nil
 end
 exports.getSuggestedQuery = getSuggestedQuery
