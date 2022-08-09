@@ -107,7 +107,7 @@ export type CreateObject = {
 	[EventType]: (element: Instance, options: { [string]: any }?) -> Event,
 }
 
-type createEvent = CreateObject & CreateFunction
-type fireEvent = FireFunction & FireObject
+export type createEvent = CreateObject & CreateFunction
+export type fireEvent = FireFunction & FireObject
 
 return exports

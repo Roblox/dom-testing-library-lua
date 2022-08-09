@@ -4,7 +4,6 @@ local Packages = script.Parent.Parent.Parent
 local exports = {}
 
 local prettyFormat = require(Packages.PrettyFormat)
-type prettyFormat_OptionsReceived = prettyFormat.OptionsReceived
 
 export type PrettyDOMOptions = prettyFormat_OptionsReceived & {
 	--[[*
@@ -18,18 +17,18 @@ export type prettyDOM = (dom: Instance?, maxLength: number?, options: PrettyDOMO
 
 export type logDOM = (dom: Instance?, maxLength: number?, options: PrettyDOMOptions?) -> ()
 
-export type Colors = prettyFormat.Colors
-export type CompareKeys = prettyFormat.CompareKeys
-export type Config = prettyFormat.Config
-export type Options = prettyFormat.Options
-export type OptionsReceived = prettyFormat.OptionsReceived
-export type OldPlugin = prettyFormat.OldPlugin
-export type NewPlugin = prettyFormat.NewPlugin
-export type Plugin = prettyFormat.Plugin
-export type Plugins = prettyFormat.Plugins
-export type PrettyFormatOptions = prettyFormat.PrettyFormatOptions
-export type Printer = prettyFormat.Printer
-export type Refs = prettyFormat.Refs
-export type Theme = prettyFormat.Theme
+export type prettyFormat_Colors = prettyFormat.Colors
+export type prettyFormat_CompareKeys = prettyFormat.CompareKeys
+export type prettyFormat_Config = prettyFormat.Config
+export type prettyFormat_Options = prettyFormat.Options
+export type prettyFormat_OptionsReceived = prettyFormat.OptionsReceived
+export type prettyFormat_OldPlugin = prettyFormat.OldPlugin
+export type prettyFormat_NewPlugin = prettyFormat.NewPlugin
+export type prettyFormat_Plugin = prettyFormat.Plugin
+export type prettyFormat_Plugins = prettyFormat.Plugins
+export type prettyFormat_PrettyFormatOptions = prettyFormat.PrettyFormatOptions
+export type prettyFormat_Printer = prettyFormat.Printer
+export type prettyFormat_Refs = prettyFormat.Refs
+export type prettyFormat_Theme = prettyFormat.Theme
 
 return exports
