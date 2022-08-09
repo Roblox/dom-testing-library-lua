@@ -1339,7 +1339,7 @@ Step
 		-- ROBLOX deviation START: reduce number of instances, cause 7000 Instances will hang
 		for i = 1, 70 do
 			local divWithText = Instance.new("TextLabel")
-			divWithText:SetAttribute("data-testid", "debugging")
+			CollectionService:AddTag(divWithText, "data-testid=debugging")
 			divWithText.Text = "Hello World!"
 			divWithText.Parent = Large
 		end
@@ -1352,8 +1352,8 @@ Step
 		end).toThrowError()
 
 		local Hello = Instance.new("TextLabel")
-		Hello:SetAttribute("data-testid", "debugging")
-		Hello:SetAttribute("data-otherid", "debugging")
+		CollectionService:AddTag(Hello, "data-testid=debugging")
+		CollectionService:AddTag(Hello, "data-otherid=debugging")
 		Hello.Text = "Hello World!"
 		local getByTestId = renderIntoDocument({ Hello }).getByTestId
 		_G.DEBUG_PRINT_LIMIT = 5
