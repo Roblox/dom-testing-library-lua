@@ -1,45 +1,48 @@
 -- ROBLOX upstream: https://github.com/testing-library/dom-testing-library/blob/v8.14.0/src/__tests__/pretty-dom.js
-return function()
-	local Packages = script.Parent.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 
-	local LuauPolyfill = require(Packages.LuauPolyfill)
-	local console = LuauPolyfill.console
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local console = LuauPolyfill.console
 
-	local JestGlobals = require(Packages.JestGlobals)
-	local jestExpect = JestGlobals.expect
-	local jest = JestGlobals.jest
+local JestGlobals = require(Packages.JestGlobals)
+local expect = JestGlobals.expect
+local test = JestGlobals.test
+local describe = JestGlobals.describe
+local beforeEach = JestGlobals.beforeEach
+local afterEach = JestGlobals.afterEach
+local jest = JestGlobals.jest
 
-	local document = require(script.Parent.Parent.jsHelpers.document)
+local document = require(script.Parent.Parent.jsHelpers.document)
 
-	local pretty_domModule = require(script.Parent.Parent["pretty-dom"])
-	local prettyDOM = pretty_domModule.prettyDOM
-	local logDOM = pretty_domModule.logDOM
-	local getUCDModule = require(script.Parent.Parent["get-user-code-frame"])
-	local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
-	local render = test_utilsModule.render
-	local renderIntoDocument = test_utilsModule.renderIntoDocument
+local pretty_domModule = require(script.Parent.Parent["pretty-dom"])
+local prettyDOM = pretty_domModule.prettyDOM
+local logDOM = pretty_domModule.logDOM
+local getUCDModule = require(script.Parent.Parent["get-user-code-frame"])
+local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
+local render = test_utilsModule.render
+local renderIntoDocument = test_utilsModule.renderIntoDocument
 
-	-- ROBLOX deviation START: workaround jest.mock and jest.spyOn not available
-	local originalLog
-	local originalGetUserCodeFrame
-	beforeEach(function()
-		originalLog = console.log
-		originalGetUserCodeFrame = getUCDModule.getUserCodeFrame
-		getUCDModule.getUserCodeFrame = jest.fn(originalGetUserCodeFrame)
-		console.log = jest.fn().mockImplementation(function() end)
-	end)
-	afterEach(function()
-		console.log = originalLog
-		getUCDModule.getUserCodeFrame = originalGetUserCodeFrame
-	end)
-	-- ROBLOX deviation END
-	it("prettyDOM prints out the given DOM element tree", function()
-		local div = Instance.new("Frame")
-		local text = Instance.new("TextLabel")
-		text.Text = "Hello World!"
-		text.Parent = div
-		local container = render({ div }).container
-		jestExpect(prettyDOM(container)).toBe([[
+-- ROBLOX deviation START: workaround jest.mock and jest.spyOn not available
+local originalLog
+local originalGetUserCodeFrame
+beforeEach(function()
+	originalLog = console.log
+	originalGetUserCodeFrame = getUCDModule.getUserCodeFrame
+	getUCDModule.getUserCodeFrame = jest.fn(originalGetUserCodeFrame)
+	console.log = jest.fn().mockImplementation(function() end)
+end)
+afterEach(function()
+	console.log = originalLog
+	getUCDModule.getUserCodeFrame = originalGetUserCodeFrame
+end)
+-- ROBLOX deviation END
+test("prettyDOM prints out the given DOM element tree", function()
+	local div = Instance.new("Frame")
+	local text = Instance.new("TextLabel")
+	text.Text = "Hello World!"
+	text.Parent = div
+	local container = render({ div }).container
+	expect(prettyDOM(container)).toBe([[
 Frame {
   "AbsolutePosition": Vector2(0, 0),
   "AbsoluteRotation": 0,
@@ -159,17 +162,16 @@ Frame {
     },
   },
 }]])
-	end)
-
-	it("prettyDOM supports truncating the output length", function()
-		local div = Instance.new("Frame")
-		local text = Instance.new("TextLabel")
-		text.Text = "Hello World!"
-		text.Parent = div
-		local container = render({ div }).container
-		jestExpect(prettyDOM(container, 5)).toMatch("%.%.%.")
-		jestExpect(prettyDOM(container, 0)).toMatch("")
-		jestExpect(prettyDOM(container, math.huge)).toBe([[
+end)
+test("prettyDOM supports truncating the output length", function()
+	local div = Instance.new("Frame")
+	local text = Instance.new("TextLabel")
+	text.Text = "Hello World!"
+	text.Parent = div
+	local container = render({ div }).container
+	expect(prettyDOM(container, 5)).toMatch("%.%.%.")
+	expect(prettyDOM(container, 0)).toMatch("")
+	expect(prettyDOM(container, math.huge)).toBe([[
 Frame {
   "AbsolutePosition": Vector2(0, 0),
   "AbsoluteRotation": 0,
@@ -289,10 +291,9 @@ Frame {
     },
   },
 }]])
-	end)
-
-	it("prettyDOM defaults to document.body", function()
-		local defaultInlineSnapshot = [[
+end)
+test("prettyDOM defaults to document.body", function()
+	local defaultInlineSnapshot = [[
 Folder {
   "Archivable": true,
   "ClassName": "Folder",
@@ -385,34 +386,32 @@ Folder {
   },
 }]]
 
-		local div = Instance.new("Frame")
-		local text = Instance.new("TextLabel")
-		text.Text = "Hello World!"
-		text.Parent = div
-		renderIntoDocument({ div })
-		jestExpect(prettyDOM()).toBe(defaultInlineSnapshot)
-		jestExpect(prettyDOM(nil)).toBe(defaultInlineSnapshot)
-	end)
-
-	it("prettyDOM supports receiving the document element", function()
-		jestExpect(prettyDOM(document)).toBe([[
+	local div = Instance.new("Frame")
+	local text = Instance.new("TextLabel")
+	text.Text = "Hello World!"
+	text.Parent = div
+	renderIntoDocument({ div })
+	expect(prettyDOM()).toBe(defaultInlineSnapshot)
+	expect(prettyDOM(nil)).toBe(defaultInlineSnapshot)
+end)
+test("prettyDOM supports receiving the document element", function()
+	expect(prettyDOM(document)).toBe([[
 Folder {
   "Archivable": true,
   "ClassName": "Folder",
   "Name": "Document",
   "Parent": "ScreenGui" [ScreenGui],
 }]])
-	end)
-
-	it("logDOM logs prettyDOM to the console", function()
-		local div = Instance.new("Frame")
-		local text = Instance.new("TextLabel")
-		text.Text = "Hello World!"
-		text.Parent = div
-		local container = render({ div }).container
-		logDOM(container)
-		jestExpect(console.log).toHaveBeenCalledTimes(1)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe([[
+end)
+test("logDOM logs prettyDOM to the console", function()
+	local div = Instance.new("Frame")
+	local text = Instance.new("TextLabel")
+	text.Text = "Hello World!"
+	text.Parent = div
+	local container = render({ div }).container
+	logDOM(container)
+	expect(console.log).toHaveBeenCalledTimes(1)
+	expect((console.log :: any).mock.calls[1][1]).toBe([[
 Frame {
   "AbsolutePosition": Vector2(0, 0),
   "AbsoluteRotation": 0,
@@ -532,26 +531,25 @@ Frame {
     },
   },
 }]])
-	end)
-
-	it("logDOM logs prettyDOM with code frame to the console", function()
-		(getUCDModule.getUserCodeFrame :: any).mockImplementationOnce(function()
-			return [["/home/john/projects/sample-error/error-example.js:7:14
+end)
+test("logDOM logs prettyDOM with code frame to the console", function()
+	(getUCDModule.getUserCodeFrame :: any).mockImplementationOnce(function()
+		return [["/home/john/projects/sample-error/error-example.js:7:14
       5 |         document.createTextNode('Hello World!')
       6 |       )
     > 7 |       screen.debug()
         |              ^
     "
   ]]
-		end)
-		local div = Instance.new("Frame")
-		local text = Instance.new("TextLabel")
-		text.Text = "Hello World!"
-		text.Parent = div
-		local container = render({ div }).container
-		logDOM(container)
-		jestExpect(console.log).toHaveBeenCalledTimes(1)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe([[
+	end)
+	local div = Instance.new("Frame")
+	local text = Instance.new("TextLabel")
+	text.Text = "Hello World!"
+	text.Parent = div
+	local container = render({ div }).container
+	logDOM(container)
+	expect(console.log).toHaveBeenCalledTimes(1)
+	expect((console.log :: any).mock.calls[1][1]).toBe([[
 Frame {
   "AbsolutePosition": Vector2(0, 0),
   "AbsoluteRotation": 0,
@@ -679,39 +677,39 @@ Frame {
         |              ^
     "
   ]])
+end)
+
+describe("prettyDOM fails with first parameter without outerHTML field", function()
+	test("with array", function()
+		expect(function()
+			return prettyDOM({ "outerHTML" } :: any)
+		end).toThrowError("Expected an Instance but got table")
 	end)
 
-	describe("prettyDOM fails with first parameter without outerHTML field", function()
-		it("with array", function()
-			jestExpect(function()
-				return prettyDOM({ "outerHTML" } :: any)
-			end).toThrowError("Expected an Instance but got table")
-		end)
-
-		it("with number", function()
-			jestExpect(function()
-				return prettyDOM(1 :: any)
-			end).toThrowError("Expected an Instance but got number")
-		end)
-
-		it("with object", function()
-			jestExpect(function()
-				return prettyDOM({} :: any)
-			end).toThrowError("Expected an Instance but got table")
-		end)
+	test("with number", function()
+		expect(function()
+			return prettyDOM(1 :: any)
+		end).toThrowError("Expected an Instance but got number")
 	end)
 
-	-- ROBLOX deviation START: by default we don't ignore any Instance. Replacing with equivalents
-	it("prettyDOM returns all nodes by default", function()
-		local div = Instance.new("Frame")
-		local label = Instance.new("TextLabel")
-		label.Text = "TextLabelText"
-		label.Parent = div
-		local button = Instance.new("TextButton")
-		button.Text = "TextButtonText"
-		button.Parent = div
-		local container = renderIntoDocument({ div }).container
-		jestExpect(prettyDOM(container)).toBe([[
+	test("with object", function()
+		expect(function()
+			return prettyDOM({} :: any)
+		end).toThrowError("Expected an Instance but got table")
+	end)
+end)
+
+-- ROBLOX deviation START: by default we don't ignore any Instance. Replacing with equivalents
+test("prettyDOM returns all nodes by default", function()
+	local div = Instance.new("Frame")
+	local label = Instance.new("TextLabel")
+	label.Text = "TextLabelText"
+	label.Parent = div
+	local button = Instance.new("TextButton")
+	button.Text = "TextButtonText"
+	button.Parent = div
+	local container = renderIntoDocument({ div }).container
+	expect(prettyDOM(container)).toBe([[
 Folder {
   "Archivable": true,
   "ClassName": "Folder",
@@ -858,22 +856,21 @@ Folder {
     },
   },
 }]])
-	end)
-
-	it("prettyDOM can use a custom filter", function()
-		local div = Instance.new("Frame")
-		local label = Instance.new("TextLabel")
-		label.Text = "TextLabelText"
-		label.Parent = div
-		local button = Instance.new("TextButton")
-		button.Text = "TextButtonText"
-		button.Parent = div
-		local container = renderIntoDocument({ div }).container
-		jestExpect(prettyDOM(container, math.huge, {
-			filterNode = function(instance)
-				return not instance:IsA("TextButton")
-			end,
-		})).toBe([[
+end)
+test("prettyDOM can use a custom filter", function()
+	local div = Instance.new("Frame")
+	local label = Instance.new("TextLabel")
+	label.Text = "TextLabelText"
+	label.Parent = div
+	local button = Instance.new("TextButton")
+	button.Text = "TextButtonText"
+	button.Parent = div
+	local container = renderIntoDocument({ div }).container
+	expect(prettyDOM(container, math.huge, {
+		filterNode = function(instance)
+			return not instance:IsA("TextButton")
+		end,
+	})).toBe([[
 Folder {
   "Archivable": true,
   "ClassName": "Folder",
@@ -965,6 +962,6 @@ Folder {
     },
   },
 }]])
-	end)
-	-- ROBLOX deviation END
-end
+end)
+-- ROBLOX deviation END
+return {}

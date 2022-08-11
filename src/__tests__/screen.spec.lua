@@ -1,117 +1,115 @@
 -- ROBLOX upstream: https://github.com/testing-library/dom-testing-library/blob/v8.14.0/src/__tests__/screen.js
-return function()
-	local Packages = script.Parent.Parent.Parent
+local Packages = script.Parent.Parent.Parent
 
-	local JestGlobals = require(Packages.JestGlobals)
-	local jestExpect = JestGlobals.expect
-	local jest = JestGlobals.jest
+local JestGlobals = require(Packages.JestGlobals)
+local expect = JestGlobals.expect
+local test = JestGlobals.test
+local beforeEach = JestGlobals.beforeEach
+local afterEach = JestGlobals.afterEach
+local jest = JestGlobals.jest
 
-	local LuauPolyfill = require(Packages.LuauPolyfill)
-	local console = LuauPolyfill.console
+local LuauPolyfill = require(Packages.LuauPolyfill)
+local console = LuauPolyfill.console
 
-	local Promise = require(Packages.Promise)
-	local RegExp = require(Packages.LuauRegExp)
+local Promise = require(Packages.Promise)
+local RegExp = require(Packages.LuauRegExp)
 
-	local getUCDModule = require(script.Parent.Parent["get-user-code-frame"])
+local getUCDModule = require(script.Parent.Parent["get-user-code-frame"])
 
-	local screen = require(script.Parent.Parent.screen).screen
-	local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
-	local _render = test_utilsModule.render
-	local renderIntoDocument = test_utilsModule.renderIntoDocument
+local screen = require(script.Parent.Parent.screen).screen
+local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
+local _render = test_utilsModule.render
+local renderIntoDocument = test_utilsModule.renderIntoDocument
 
-	-- Since screen.debug internally calls getUserCodeFrame, we mock it so it doesn't affect these tests
-	-- ROBLOX deviation START: workaround jest.mock and jest.spyOn not available
-	local originalLog
-	local originalGetUserCodeFrame
-	beforeEach(function()
-		originalLog = console.log
-		originalGetUserCodeFrame = getUCDModule.getUserCodeFrame
-		getUCDModule.getUserCodeFrame = jest.fn(originalGetUserCodeFrame)
-		console.log = jest.fn()
-	end)
-	afterEach(function()
-		console.log = originalLog
-		getUCDModule.getUserCodeFrame = originalGetUserCodeFrame
-	end)
+-- Since screen.debug internally calls getUserCodeFrame, we mock it so it doesn't affect these tests
+-- ROBLOX deviation START: workaround jest.mock and jest.spyOn not available
+local originalLog
+local originalGetUserCodeFrame
+beforeEach(function()
+	originalLog = console.log
+	originalGetUserCodeFrame = getUCDModule.getUserCodeFrame
+	getUCDModule.getUserCodeFrame = jest.fn(originalGetUserCodeFrame)
+	console.log = jest.fn()
+end)
+afterEach(function()
+	console.log = originalLog
+	getUCDModule.getUserCodeFrame = originalGetUserCodeFrame
+end)
+-- ROBLOX deviation END
+test("exposes queries that are attached to document.body", function()
+	return Promise.resolve()
+		:andThen(function()
+			local div = Instance.new("TextLabel")
+			div.Text = "hello world"
+			renderIntoDocument({ div })
+			screen.getByText(RegExp("hello world"))
+			screen.findByText(RegExp("hello world")):expect()
+			expect(screen.queryByText(RegExp("hello world"))).never.toBeNull()
+		end)
+		:expect()
+end)
+
+-- ROBLOX deviation START: testing playground not available
+-- 	it("logs Playground URL that are attached to document.body", function()
+-- 		local div = Instance.new("TextLabel")
+-- 		div.Text = "hello world"
+-- 		renderIntoDocument({ div })
+-- 		screen.logTestingPlaygroundURL()
+-- 		expect(console.log).toHaveBeenCalledTimes(1)
+-- 		expect(console.log.mock.calls[1][1]).toMatchInlineSnapshot([[
+
+--     Open this URL in your browser
+
+--     https://testing-playground.com/#markup=DwEwlgbgfAFgpgGwQewAQHdkCcEmAenGiA
+--   ]])
+-- 	end)
+-- ROBLOX deviation END
+test("logs messsage when element is empty", function()
+	local div = Instance.new("TextLabel")
+	screen.logTestingPlaygroundURL(div)
+	expect(console.log).toHaveBeenCalledTimes(1)
+	expect((console.log :: any).mock.calls[1][1]).toBe("The provided element doesn't have any children.")
+end)
+test("logs messsage when element is not a valid HTML", function()
+	-- ROBLOX deviation START: null is an object in JS, we pass in an object with key/value for the test
+	screen.logTestingPlaygroundURL({ foo = "foo" })
 	-- ROBLOX deviation END
+	expect(console.log).toHaveBeenCalledTimes(1)
+	expect((console.log :: any).mock.calls[1][1]).toBe("The element you're providing isn't a valid Instance.");
+	(console.log :: any):mockClear()
+	screen.logTestingPlaygroundURL({})
+	expect(console.log).toHaveBeenCalledTimes(1)
+	expect((console.log :: any).mock.calls[1][1]).toBe("The element you're providing isn't a valid Instance.")
+end)
 
-	it("exposes queries that are attached to document.body", function()
-		return Promise.resolve()
-			:andThen(function()
-				local div = Instance.new("TextLabel")
-				div.Text = "hello world"
-				renderIntoDocument({ div })
-				screen.getByText(RegExp("hello world"))
-				screen.findByText(RegExp("hello world")):expect()
-				jestExpect(screen.queryByText(RegExp("hello world"))).never.toBeNull()
-			end)
-			:expect()
-	end)
+-- ROBLOX deviation START: testing playground not available
+-- 	it("logs Playground URL that are passed as element", function()
+-- 		local h1 = Instance.new("TextLabel")
+-- 		h1.Text = "Sign "
+-- 		local em = Instance.new("TextLabel")
+-- 		em.Text = "up"
+-- 		em.Parent = h1
+-- 		screen.logTestingPlaygroundURL(render({h1}).container)
+-- 		expect(console.log).toHaveBeenCalledTimes(1)
+-- 		expect((console.log.mock::any).calls[1][1]).toMatchInlineSnapshot([[
 
-	-- ROBLOX deviation START: testing playground not available
-	-- 	it("logs Playground URL that are attached to document.body", function()
-	-- 		local div = Instance.new("TextLabel")
-	-- 		div.Text = "hello world"
-	-- 		renderIntoDocument({ div })
-	-- 		screen.logTestingPlaygroundURL()
-	-- 		jestExpect(console.log).toHaveBeenCalledTimes(1)
-	-- 		jestExpect(console.log.mock.calls[1][1]).toMatchInlineSnapshot([[
+--     Open this URL in your browser
 
-	--     Open this URL in your browser
-
-	--     https://testing-playground.com/#markup=DwEwlgbgfAFgpgGwQewAQHdkCcEmAenGiA
-	--   ]])
-	-- 	end)
-	-- ROBLOX deviation END
-
-	it("logs messsage when element is empty", function()
-		local div = Instance.new("TextLabel")
-		screen.logTestingPlaygroundURL(div)
-		jestExpect(console.log).toHaveBeenCalledTimes(1)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe("The provided element doesn't have any children.")
-	end)
-
-	it("logs messsage when element is not a valid HTML", function()
-		-- ROBLOX deviation START: null is an object in JS, we pass in an object with key/value for the test
-		screen.logTestingPlaygroundURL({ foo = "foo" })
-		-- ROBLOX deviation END
-		jestExpect(console.log).toHaveBeenCalledTimes(1)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe("The element you're providing isn't a valid Instance.");
-		(console.log :: any):mockClear()
-		screen.logTestingPlaygroundURL({})
-		jestExpect(console.log).toHaveBeenCalledTimes(1)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe("The element you're providing isn't a valid Instance.")
-	end)
-
-	-- ROBLOX deviation START: testing playground not available
-	-- 	it("logs Playground URL that are passed as element", function()
-	-- 		local h1 = Instance.new("TextLabel")
-	-- 		h1.Text = "Sign "
-	-- 		local em = Instance.new("TextLabel")
-	-- 		em.Text = "up"
-	-- 		em.Parent = h1
-	-- 		screen.logTestingPlaygroundURL(render({h1}).container)
-	-- 		jestExpect(console.log).toHaveBeenCalledTimes(1)
-	-- 		jestExpect((console.log.mock::any).calls[1][1]).toMatchInlineSnapshot([[
-
-	--     Open this URL in your browser
-
-	--     https://testing-playground.com/#markup=DwCwjAfAyglg5gOwATAKYFsIFcAOwD0GEB4EQA
-	--   ]])
-	-- 	end)
-	-- ROBLOX deviation END
-
-	it("exposes debug method", function()
-		local button = Instance.new("TextButton")
-		button.Text = "test"
-		local span = Instance.new("TextLabel")
-		span.Text = "multi-test"
-		local div = Instance.new("TextLabel")
-		div.Text = "multi-test"
-		renderIntoDocument({ button, span, div }) -- log document
-		screen.debug()
-		jestExpect(console.log).toHaveBeenCalledTimes(1)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe([[
+--     https://testing-playground.com/#markup=DwCwjAfAyglg5gOwATAKYFsIFcAOwD0GEB4EQA
+--   ]])
+-- 	end)
+-- ROBLOX deviation END
+test("exposes debug method", function()
+	local button = Instance.new("TextButton")
+	button.Text = "test"
+	local span = Instance.new("TextLabel")
+	span.Text = "multi-test"
+	local div = Instance.new("TextLabel")
+	div.Text = "multi-test"
+	renderIntoDocument({ button, span, div }) -- log document
+	screen.debug()
+	expect(console.log).toHaveBeenCalledTimes(1)
+	expect((console.log :: any).mock.calls[1][1]).toBe([[
 Folder {
   "Archivable": true,
   "ClassName": "Folder",
@@ -276,10 +274,10 @@ Folder {
   },
 }]]);
 
-		(console.log :: any):mockClear() -- log single element
-		screen.debug(screen.getByText("test", { selector = { "TextButton" } }))
-		jestExpect(console.log).toHaveBeenCalledTimes(1)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe([[
+	(console.log :: any):mockClear() -- log single element
+	screen.debug(screen.getByText("test", { selector = { "TextButton" } }))
+	expect(console.log).toHaveBeenCalledTimes(1)
+	expect((console.log :: any).mock.calls[1][1]).toBe([[
 TextButton {
   "AbsolutePosition": Vector2(0, 0),
   "AbsoluteRotation": 0,
@@ -336,10 +334,10 @@ TextButton {
   "ZIndex": 1,
 }]]);
 
-		(console.log :: any):mockClear() -- log multiple elements
-		screen.debug(screen.getAllByText("multi-test"))
-		jestExpect(console.log).toHaveBeenCalledTimes(2)
-		jestExpect((console.log :: any).mock.calls[1][1]).toBe([[
+	(console.log :: any):mockClear() -- log multiple elements
+	screen.debug(screen.getAllByText("multi-test"))
+	expect(console.log).toHaveBeenCalledTimes(2)
+	expect((console.log :: any).mock.calls[1][1]).toBe([[
 TextLabel {
   "AbsolutePosition": Vector2(0, 0),
   "AbsoluteRotation": 0,
@@ -391,7 +389,7 @@ TextLabel {
   "Visible": true,
   "ZIndex": 1,
 }]])
-		jestExpect((console.log :: any).mock.calls[2][1]).toBe([[
+	expect((console.log :: any).mock.calls[2][1]).toBe([[
 TextLabel {
   "AbsolutePosition": Vector2(0, 0),
   "AbsoluteRotation": 0,
@@ -443,6 +441,6 @@ TextLabel {
   "Visible": true,
   "ZIndex": 1,
 }]]);
-		(console.log :: any):mockClear()
-	end)
-end
+	(console.log :: any):mockClear()
+end)
+return {}

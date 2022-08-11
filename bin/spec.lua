@@ -1,23 +1,16 @@
 local Root = game:GetService("ReplicatedStorage")
-
 local Packages = Root.Packages
 
-local JestGlobals = require(Packages.JestGlobals)
+local runCLI = require(Packages.JestCore).runCLI
 
-local TestEZ = JestGlobals.TestEZ
+local status, result = runCLI(Root, {
+	verbose = _G.verbose == "true",
+	ci = _G.CI == "true",
+	updateSnapshot = _G.UPDATESNAPSHOT == "true",
+}, { Packages.DomTestingLibrary }):awaitStatus()
 
--- Run all tests, collect results, and report to stdout.
-TestEZ.TestBootstrap:run(
-	{ Packages.DomTestingLibrary },
-	TestEZ.Reporters.pipe({
-		TestEZ.Reporters.JestDefaultReporter,
-		TestEZ.Reporters.JestSummaryReporter,
-	}),
-	{
-		extraEnvironment = JestGlobals.testEnv,
-	}
-)
--- ROBLOX TODO: after converting jest-runner this should be included there
-JestGlobals.runtime:teardown()
+if status == "Rejected" then
+	print(result)
+end
 
 return nil
