@@ -18,7 +18,7 @@ local pretty_domModule = require(script.Parent.Parent["pretty-dom"])
 local prettyDOM = pretty_domModule.prettyDOM
 local logDOM = pretty_domModule.logDOM
 local getUCDModule = require(script.Parent.Parent["get-user-code-frame"])
-local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
+local test_utilsModule = require(script.Parent.helpers["test-utils"])
 local render = test_utilsModule.render
 local renderIntoDocument = test_utilsModule.renderIntoDocument
 

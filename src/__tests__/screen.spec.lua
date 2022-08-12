@@ -17,7 +17,7 @@ local RegExp = require(Packages.LuauRegExp)
 local getUCDModule = require(script.Parent.Parent["get-user-code-frame"])
 
 local screen = require(script.Parent.Parent.screen).screen
-local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
+local test_utilsModule = require(script.Parent.helpers["test-utils"])
 local _render = test_utilsModule.render
 local renderIntoDocument = test_utilsModule.renderIntoDocument
 

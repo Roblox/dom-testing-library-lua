@@ -11,13 +11,12 @@ local Promise = require(Packages.Promise)
 local JestGlobals = require(Packages.JestGlobals)
 local expect = JestGlobals.expect
 local test = JestGlobals.test
-local afterEach = JestGlobals.afterEach
 
 local CollectionService = game:GetService("CollectionService")
 
 local waitForElementToBeRemoved =
 	require(script.Parent.Parent["wait-for-element-to-be-removed"]).waitForElementToBeRemoved
-local renderIntoDocument = require(script.Parent.helpers["test-utils"])(afterEach).renderIntoDocument
+local renderIntoDocument = require(script.Parent.helpers["test-utils"]).renderIntoDocument
 
 local document = require(script.Parent.Parent.jsHelpers.document)
 test("resolves on mutation only when the element is removed", function()

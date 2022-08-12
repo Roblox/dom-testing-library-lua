@@ -17,7 +17,7 @@ local configure = require(script.Parent.Parent.config).configure
 local getConfig = require(script.Parent.Parent.config).getConfig
 -- ROBLOX deviation START
 
-local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
+local test_utilsModule = require(script.Parent.helpers["test-utils"])
 local render = test_utilsModule.render
 local renderIntoDocument = test_utilsModule.renderIntoDocument
 test("query can return null", function()

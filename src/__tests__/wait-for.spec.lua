@@ -23,7 +23,7 @@ local waitFor = require(script.Parent.Parent["wait-for"]).waitFor
 local configModule = require(script.Parent.Parent.config)
 local configure = configModule.configure
 local getConfig = configModule.getConfig
-local renderIntoDocument = require(script.Parent.helpers["test-utils"])(afterEach).renderIntoDocument
+local renderIntoDocument = require(script.Parent.helpers["test-utils"]).renderIntoDocument
 
 local function deferred()
 	local resolve, reject

@@ -25,7 +25,7 @@ local CollectionService = game:GetService("CollectionService")
 local configure = require(script.Parent.Parent.config).configure
 local screen = require(script.Parent.Parent.screen).screen
 local getSuggestedQuery = require(script.Parent.Parent.suggestions).getSuggestedQuery
-local test_utilsModule = require(script.Parent.helpers["test-utils"])(afterEach)
+local test_utilsModule = require(script.Parent.helpers["test-utils"])
 local renderIntoDocument = test_utilsModule.renderIntoDocument
 local render = test_utilsModule.render
 

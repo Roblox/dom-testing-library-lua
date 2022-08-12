@@ -4,10 +4,9 @@ local Packages = script.Parent.Parent.Parent
 local JestGlobals = require(Packages.JestGlobals)
 local expect = JestGlobals.expect
 local test = JestGlobals.test
-local afterEach = JestGlobals.afterEach
 
 local getNodeText = require(script.Parent.Parent["get-node-text"]).getNodeText
-local render = require(script.Parent.helpers["test-utils"])(afterEach).render
+local render = require(script.Parent.helpers["test-utils"]).render
 
 --[[
 		ROBLOX deviation START:
