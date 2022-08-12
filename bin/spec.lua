@@ -1,7 +1,7 @@
 local Root = game:GetService("ReplicatedStorage")
 local Packages = Root.Packages
 
-local runCLI = require(Packages.JestCore).runCLI
+local runCLI = require(Packages.Jest).runCLI
 
 local status, result = runCLI(Root, {
 	verbose = _G.verbose == "true",
