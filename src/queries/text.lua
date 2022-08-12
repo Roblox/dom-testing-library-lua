@@ -93,18 +93,12 @@ function getMissingError(c, text: Matcher, options_: SelectorMatcherOptions?)
 		)
 	)
 end
-local queryAllByTextWithSuggestions = wrapAllByQueryWithSuggestion(
-	queryAllByText,
-	debug.info(queryAllByText, "n"),
-	"queryAll"
-)
+local queryAllByTextWithSuggestions =
+	wrapAllByQueryWithSuggestion(queryAllByText, debug.info(queryAllByText, "n"), "queryAll")
 
 -- ROBLOX deviation START: buildQueries returns a list
-local queryByText, getAllByText, getByText, findAllByText, findByText = buildQueries(
-	queryAllByText,
-	getMultipleError,
-	getMissingError
-)
+local queryByText, getAllByText, getByText, findAllByText, findByText =
+	buildQueries(queryAllByText, getMultipleError, getMissingError)
 -- ROBLOX deviation END
 
 exports.queryByText = queryByText

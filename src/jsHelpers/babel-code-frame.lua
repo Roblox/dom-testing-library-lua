@@ -188,10 +188,7 @@ local function codeFrameColumns(rawLines: string, loc: NodeLocation, opts_: Opti
 					if Array.isArray(hasMarker) then
 						-- ROBLOX FIXME Luau: Already checked hasMarker is an Array
 						local markerSpacing =
-							string.sub(line, 1, math.max((hasMarker :: Array<number>)[1] - 1, 0)):gsub(
-								"[^\t]",
-								" "
-							)
+							string.sub(line, 1, math.max((hasMarker :: Array<number>)[1] - 1, 0)):gsub("[^\t]", " ")
 						local numberOfMarkers = if (hasMarker :: Array<number>)[2] > 1
 							then (hasMarker :: Array<number>)[2]
 							else 1

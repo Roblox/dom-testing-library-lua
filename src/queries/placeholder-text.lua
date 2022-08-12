@@ -33,19 +33,12 @@ function getMissingError(c, text)
 	return ("Unable to find an element with the placeholder text of: %s"):format(tostring(text))
 end
 
-local queryAllByPlaceholderTextWithSuggestions = wrapAllByQueryWithSuggestion(
-	queryAllByPlaceholderText,
-	debug.info(queryAllByPlaceholderText, "n"),
-	"queryAll"
-)
+local queryAllByPlaceholderTextWithSuggestions =
+	wrapAllByQueryWithSuggestion(queryAllByPlaceholderText, debug.info(queryAllByPlaceholderText, "n"), "queryAll")
 
 -- ROBLOX deviation START: buildQueries returns a list
 local queryByPlaceholderText, getAllByPlaceholderText, getByPlaceholderText, findAllByPlaceholderText, findByPlaceholderText =
-	buildQueries(
-		queryAllByPlaceholderText,
-		getMultipleError,
-		getMissingError
-	)
+	buildQueries(queryAllByPlaceholderText, getMultipleError, getMissingError)
 --ROBLOX deviation END
 
 exports.queryByPlaceholderText = queryByPlaceholderText

@@ -67,18 +67,11 @@ function getMissingError(c, value)
 	return ("Unable to find an element with the display value: %s."):format(tostring(value))
 end
 
-local queryAllByDisplayValueWithSuggestions = wrapAllByQueryWithSuggestion(
-	queryAllByDisplayValue,
-	debug.info(queryAllByDisplayValue, "n"),
-	"queryAll"
-)
+local queryAllByDisplayValueWithSuggestions =
+	wrapAllByQueryWithSuggestion(queryAllByDisplayValue, debug.info(queryAllByDisplayValue, "n"), "queryAll")
 -- ROBLOX deviation START: buildQueries returns a list
 local queryByDisplayValue, getAllByDisplayValue, getByDisplayValue, findAllByDisplayValue, findByDisplayValue =
-	buildQueries(
-		queryAllByDisplayValue,
-		getMultipleError,
-		getMissingError
-	)
+	buildQueries(queryAllByDisplayValue, getMultipleError, getMissingError)
 --ROBLOX deviation END
 exports.queryByDisplayValue = queryByDisplayValue
 exports.queryAllByDisplayValue = queryAllByDisplayValueWithSuggestions

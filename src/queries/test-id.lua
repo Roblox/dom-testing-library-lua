@@ -38,18 +38,12 @@ function getMissingError(c, id)
 	return ('Unable to find an element by: [%s="%s"]'):format(getTestIdAttribute(), tostring(id))
 end
 
-local queryAllByTestIdWithSuggestions = wrapAllByQueryWithSuggestion(
-	queryAllByTestId,
-	debug.info(queryAllByTestId, "n"),
-	"queryAll"
-)
+local queryAllByTestIdWithSuggestions =
+	wrapAllByQueryWithSuggestion(queryAllByTestId, debug.info(queryAllByTestId, "n"), "queryAll")
 
 -- ROBLOX deviation START: buildQueries returns a list
-local queryByTestId, getAllByTestId, getByTestId, findAllByTestId, findByTestId = buildQueries(
-	queryAllByTestId,
-	getMultipleError,
-	getMissingError
-)
+local queryByTestId, getAllByTestId, getByTestId, findAllByTestId, findByTestId =
+	buildQueries(queryAllByTestId, getMultipleError, getMissingError)
 -- ROBLOX deviation END
 
 exports.queryByTestId = queryByTestId

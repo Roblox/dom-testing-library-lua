@@ -187,10 +187,8 @@ describe("@babel/code-frame", function()
 		)
 	end)
 	test("opts.linesAbove no lines above", function()
-		local rawLines = Array.join(
-			{ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" },
-			"\n"
-		)
+		local rawLines =
+			Array.join({ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" }, "\n")
 		expect(codeFrameColumns(rawLines, { start = { line = 2 } }, { linesAbove = 0 })).toEqual(Array.join({
 			"> 2 |   constructor() {",
 			"  3 |     console.log(arguments);",
@@ -199,19 +197,15 @@ describe("@babel/code-frame", function()
 		}, "\n"))
 	end)
 	test("opts.linesBelow no lines below", function()
-		local rawLines = Array.join(
-			{ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" },
-			"\n"
-		)
+		local rawLines =
+			Array.join({ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" }, "\n")
 		expect(codeFrameColumns(rawLines, { start = { line = 2 } }, { linesBelow = 0 })).toEqual(
 			Array.join({ "  1 | class Foo {", "> 2 |   constructor() {" }, "\n")
 		)
 	end)
 	test("opts.linesBelow single line", function()
-		local rawLines = Array.join(
-			{ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" },
-			"\n"
-		)
+		local rawLines =
+			Array.join({ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" }, "\n")
 		expect(codeFrameColumns(rawLines, { start = { line = 2 } }, { linesAbove = 0, linesBelow = 0 })).toEqual(
 			Array.join({ "> 2 |   constructor() {" }, "\n")
 		)
@@ -278,10 +272,8 @@ describe("@babel/code-frame", function()
 		)
 	end)
 	test("mark multiple columns across multiple lines", function()
-		local rawLines = Array.join(
-			{ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" },
-			"\n"
-		)
+		local rawLines =
+			Array.join({ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" }, "\n")
 		expect(codeFrameColumns(rawLines, { start = { line = 2, column = 17 }, ["end"] = { line = 4, column = 3 } })).toEqual(
 			Array.join({
 				"  1 | class Foo {",
@@ -296,10 +288,8 @@ describe("@babel/code-frame", function()
 		)
 	end)
 	test("mark across multiple lines without columns", function()
-		local rawLines = Array.join(
-			{ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" },
-			"\n"
-		)
+		local rawLines =
+			Array.join({ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" }, "\n")
 		expect(codeFrameColumns(rawLines, { start = { line = 2 }, ["end"] = { line = 4 } })).toEqual(Array.join({
 			"  1 | class Foo {",
 			"> 2 |   constructor() {",
@@ -326,10 +316,8 @@ describe("@babel/code-frame", function()
 		)
 	end)
 	test("opts.message with multiple lines", function()
-		local rawLines = Array.join(
-			{ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" },
-			"\n"
-		)
+		local rawLines =
+			Array.join({ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" }, "\n")
 		expect(
 			codeFrameColumns(
 				rawLines,
@@ -348,10 +336,8 @@ describe("@babel/code-frame", function()
 		}, "\n"))
 	end)
 	test("opts.message with multiple lines without columns", function()
-		local rawLines = Array.join(
-			{ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" },
-			"\n"
-		)
+		local rawLines =
+			Array.join({ "class Foo {", "  constructor() {", "    console.log(arguments);", "  }", "};" }, "\n")
 		expect(
 			codeFrameColumns(
 				rawLines,

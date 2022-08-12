@@ -169,9 +169,7 @@ end
 
 -- this accepts a getter query function and returns a function which calls
 -- waitFor and passing a function which invokes the getter.
-local function makeFindQuery<QueryFor>(
-	getter: (container: Instance, text: Matcher, options: MatcherOptions) -> QueryFor
-)
+local function makeFindQuery<QueryFor>(getter: (container: Instance, text: Matcher, options: MatcherOptions) -> QueryFor)
 	return function(container: Instance, text: Matcher, options: MatcherOptions, waitForOptions: WaitForOptions)
 		return waitFor(function()
 			return getter(container, text, options)
@@ -261,11 +259,8 @@ local function buildQueries(
 
 	local getBy = makeSingleQuery(getAllBy, getMultipleError)
 	local getByWithSuggestions = wrapSingleQueryWithSuggestion(getBy, debug.info(queryAllBy, "n"), "get")
-	local getAllWithSuggestions = wrapAllByQueryWithSuggestion(
-		getAllBy,
-		debug.info(queryAllBy, "n"):gsub("query", "get"),
-		"getAll"
-	)
+	local getAllWithSuggestions =
+		wrapAllByQueryWithSuggestion(getAllBy, debug.info(queryAllBy, "n"):gsub("query", "get"), "getAll")
 
 	local findAllBy = makeFindQuery(wrapAllByQueryWithSuggestion(getAllBy, debug.info(queryAllBy, "n"), "findAll"))
 	local findBy = makeFindQuery(wrapSingleQueryWithSuggestion(getBy, debug.info(queryAllBy, "n"), "find"))

@@ -73,8 +73,8 @@ test("can timeout after the given timeout time", function()
 		:andThen(function()
 			local error_ = Error.new("throws every time")
 			local result = waitFor(function()
-				error(error_)
-			end, { timeout = 8, interval = 5 })
+					error(error_)
+				end, { timeout = 8, interval = 5 })
 				:catch(function(e)
 					return e
 				end)
@@ -87,15 +87,15 @@ test("if no error is thrown then throws a timeout error", function()
 	return Promise.resolve()
 		:andThen(function()
 			local result = waitFor(function()
-				-- eslint-disable-next-line no-throw-literal
-				error(nil)
-			end, {
-				timeout = 8,
-				interval = 5,
-				onTimeout = function(e)
-					return e
-				end,
-			})
+					-- eslint-disable-next-line no-throw-literal
+					error(nil)
+				end, {
+					timeout = 8,
+					interval = 5,
+					onTimeout = function(e)
+						return e
+					end,
+				})
 				:catch(function(e)
 					return e
 				end)
@@ -110,9 +110,9 @@ test("if showOriginalStackTrace on a timeout error then the stack trace does not
 	return Promise.resolve()
 		:andThen(function()
 			local result = waitFor(function()
-				-- eslint-disable-next-line no-throw-literal
-				error(nil)
-			end, { timeout = 8, interval = 5, showOriginalStackTrace = true })
+					-- eslint-disable-next-line no-throw-literal
+					error(nil)
+				end, { timeout = 8, interval = 5, showOriginalStackTrace = true })
 				:catch(function(e)
 					return e
 				end)
@@ -128,8 +128,8 @@ test("uses full stack error trace when showOriginalStackTrace present", function
 		error_.name = "TestingLibraryElementError"
 		local originalStackTrace = error_.stack
 		local result = waitFor(function()
-			error(error_)
-		end, { timeout = 8, interval = 5, showOriginalStackTrace = true })
+				error(error_)
+			end, { timeout = 8, interval = 5, showOriginalStackTrace = true })
 			:catch(function(e)
 				return e
 			end)
@@ -144,8 +144,8 @@ test("does not change the stack trace if the thrown error is not a TestingLibrar
 			local error_ = Error.new("Throws the full stack trace")
 			local originalStackTrace = error_.stack
 			local result = waitFor(function()
-				error(error_)
-			end, { timeout = 8, interval = 5 })
+					error(error_)
+				end, { timeout = 8, interval = 5 })
 				:catch(function(e)
 					return e
 				end)
@@ -161,8 +161,8 @@ test("provides an improved stack trace if the thrown error is a TestingLibraryEl
 			error_.name = "TestingLibraryElementError"
 			local originalStackTrace = error_.stack
 			local result = waitFor(function()
-				error(error_)
-			end, { timeout = 8, interval = 5 })
+					error(error_)
+				end, { timeout = 8, interval = 5 })
 				:catch(function(e)
 					return e
 				end)
@@ -195,8 +195,8 @@ test("timeout logs a pretty DOM", function()
 			renderIntoDocument({ div })
 			-- ROBLOX deviation END
 			local error_ = waitFor(function()
-				error(Error.new("always throws"))
-			end, { timeout = 1 })
+					error(Error.new("always throws"))
+				end, { timeout = 1 })
 				:catch(function(e)
 					return e
 				end)
@@ -310,8 +310,8 @@ test("should delegate to config.getElementError", function()
 			div.Name = "pretty"
 			renderIntoDocument({ div })
 			local error_ = waitFor(function()
-				error(Error.new("always throws"))
-			end, { timeout = 1 })
+					error(Error.new("always throws"))
+				end, { timeout = 1 })
 				:catch(function(e)
 					return e
 				end)
