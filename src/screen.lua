@@ -84,19 +84,18 @@ local initialValue = { debug = debug_, logTestingPlaygroundURL = logTestingPlayg
 local screen = if typeof(document)
 		~= "nil" -- eslint-disable-line @typescript-eslint/no-unnecessary-condition -- eslint-disable-line @typescript-eslint/no-unnecessary-condition)
 	then getQueriesForElement(document, queries, initialValue)
-	else
-		Array.reduce(Object.keys(queries), function(helpers, key)
-			-- `key` is for all intents and purposes the type of keyof `helpers`, which itself is the type of `initialValue` plus incoming properties from `queries`
-			-- if `Object.keys(something)` returned Array<keyof typeof something> this explicit type assertion would not be necessary
-			-- see https://stackoverflow.com/questions/55012174/why-doesnt-object-keys-return-a-keyof-type-in-typescript
-			helpers[key] = function()
-				error(
-					TypeError.new(
-						"For queries bound to document.body a global document has to be available... Learn more: https://testing-library.com/s/screen-global-error"
-					)
+	else Array.reduce(Object.keys(queries), function(helpers, key)
+		-- `key` is for all intents and purposes the type of keyof `helpers`, which itself is the type of `initialValue` plus incoming properties from `queries`
+		-- if `Object.keys(something)` returned Array<keyof typeof something> this explicit type assertion would not be necessary
+		-- see https://stackoverflow.com/questions/55012174/why-doesnt-object-keys-return-a-keyof-type-in-typescript
+		helpers[key] = function()
+			error(
+				TypeError.new(
+					"For queries bound to document.body a global document has to be available... Learn more: https://testing-library.com/s/screen-global-error"
 				)
-			end
-			return helpers
-		end, initialValue)
+			)
+		end
+		return helpers
+	end, initialValue)
 exports.screen = screen
 return exports

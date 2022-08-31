@@ -46,9 +46,9 @@ end
 
 local function getMultipleElementsFoundError(message: string, container: Instance)
 	return getElementError(
-		(
-			"%s\n\n(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`))."
-		):format(message),
+		("%s\n\n(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`))."):format(
+			message
+		),
 		container
 	)
 end

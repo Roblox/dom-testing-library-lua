@@ -85,9 +85,7 @@ function getMissingError(c, text: Matcher, options_: SelectorMatcherOptions?)
 	})
 	local normalizedText = matchNormalizer(tostring(text))
 	local isNormalizedDifferent = normalizedText ~= tostring(text)
-	return (
-		"Unable to find an element with the text: %s. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible."
-	):format(
+	return ("Unable to find an element with the text: %s. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible."):format(
 		tostring(
 			if isNormalizedDifferent then ("%s (normalized from '%s')"):format(normalizedText, tostring(text)) else text
 		)
