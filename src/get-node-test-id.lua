@@ -24,8 +24,7 @@ local function getNodeTestId(instance): string?
 	elseif #withTestIdTag > 1 then
 		error("Instance has multiple TestId tags set")
 	end
-	local escaped = string.gsub(getConfig().testIdAttribute .. "=", "[\\%.%*%+\\%-%?%^%${}%(%)|%[%]]", "%%" .. "%1")
-	local splitted = String.split(withTestIdTag[1], escaped)[2]
+	local splitted = String.split(withTestIdTag[1], getConfig().testIdAttribute .. "=")[2]
 	return splitted
 end
 

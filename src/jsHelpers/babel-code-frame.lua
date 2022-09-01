@@ -71,7 +71,7 @@ end
 --[[*
  	* RegExp to test for newlines in terminal.
 ]]
-local NEWLINE = { "\r\n", "[\n\r\2028\2029]" }
+local NEWLINE = { "\r\n", "\n", "\r", "\2028", "\2029" }
 -- ROBLOX deviation END
 
 --[[*
@@ -169,11 +169,7 @@ local function codeFrameColumns(rawLines: string, loc: NodeLocation, opts_: Opti
 	local frame = Array.join(
 		Array.map(
 			Array.slice(
-				-- ROBLOX deviation start: String.split does not have a limit argument, so we return an array slice
-				(function()
-					local ref = String.split(highlightedLines, NEWLINE)
-					return table.pack(table.unpack(ref, 1, end_))
-				end)(),
+				String.split(highlightedLines, NEWLINE, end_),
 				start,
 				end_ + 1 -- ROBLOX comment: Array slice last is exclusive
 			),
@@ -200,7 +196,7 @@ local function codeFrameColumns(rawLines: string, loc: NodeLocation, opts_: Opti
 							maybeHighlight(defs.marker, "^"):rep(numberOfMarkers),
 						}, "")
 						if lastMarkerLine and Boolean.toJSBoolean(opts.message) then
-							-- ROBLOX FIXME Luau: casing should not be required, already checked it's a string
+							-- ROBLOX FIXME Luau: casting should not be required, already checked it's a string
 							markerLine ..= " " .. maybeHighlight(defs.message, opts.message :: string)
 						end
 					end

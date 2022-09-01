@@ -6,6 +6,7 @@ local Array = LuauPolyfill.Array
 local Object = LuauPolyfill.Object
 local console = LuauPolyfill.console
 type Array<T> = LuauPolyfill.Array<T>
+type Object = LuauPolyfill.Object
 
 local document = require(script.Parent.jsHelpers.document)
 local TypeError = require(script.Parent.jsHelpers.typeError)
@@ -96,6 +97,6 @@ local screen = if typeof(document)
 			)
 		end
 		return helpers
-	end, initialValue)
+	end, initialValue) :: Object
 exports.screen = screen
 return exports
