@@ -113,13 +113,14 @@ end)
 -- ROBLOX deviation END
 test("should not suggest when nothing available", function()
 	local span = Instance.new("TextLabel")
-	span:SetAttribute("data-testid", "foo")
+	CollectionService:AddTag(span, "data-testid=foo")
 	span.Text = ""
 	renderIntoDocument({ span })
 	expect(function()
 		return screen.queryByTestId("foo")
 	end).never.toThrowError()
 end)
+
 test("should not suggest if the suggestion would give different results", function()
 	local input = Instance.new("TextBox")
 	CollectionService:AddTag(input, "data-testid=foo")
