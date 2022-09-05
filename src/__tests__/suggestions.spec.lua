@@ -11,9 +11,7 @@ local expect = JestGlobals.expect
 local test = JestGlobals.test
 local beforeAll = JestGlobals.beforeAll
 local afterAll = JestGlobals.afterAll
-local beforeEach = JestGlobals.beforeEach
 local afterEach = JestGlobals.afterEach
-local jest = JestGlobals.jest
 
 local typesModule = require(script.Parent.Parent.types)
 type Suggestion = typesModule.Suggestion
@@ -29,17 +27,8 @@ local test_utilsModule = require(script.Parent.helpers["test-utils"])
 local renderIntoDocument = test_utilsModule.renderIntoDocument
 local render = test_utilsModule.render
 
--- ROBLOX deviation START: mock console.warn
-local originalWarn
 beforeAll(function()
-	originalWarn = console.warn
 	configure({ throwSuggestions = true })
-end)
--- ROBLOX deviation END
-
-beforeEach(function()
-	configure({ throwSuggestions = true })
-	console.warn = jest.fn()
 end)
 
 afterEach(function()
@@ -49,9 +38,6 @@ end)
 
 afterAll(function()
 	configure({ throwSuggestions = false })
-	-- ROBLOX deviation START: mock console.warn
-	console.warn = originalWarn
-	-- ROBLOX deviation END
 end)
 
 -- ROBLOX deviation START: not applicable

@@ -1,4 +1,6 @@
+local Packages = script.Parent.Parent
 return {
 	displayName = "Jest",
-	testMatch = { "**/*.spec" },
+	setupFilesAfterEnv = { Packages.TestsSetup["setup-env"] },
+	testMatch = { "**/__tests__/**/*.spec" },
 }

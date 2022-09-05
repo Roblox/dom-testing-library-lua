@@ -237,17 +237,17 @@ exports.default = function(rawLines: string, lineNumber: number, colNumber: (num
 		deprecationWarningShown = true
 		local message =
 			"Passing lineNumber and colNumber is deprecated to @babel/code-frame. Please use `codeFrameColumns`."
-		-- ROBLOX deviation START: replacing process.emitWarning with warn
-		if warn then
-			-- A string is directly supplied to emitWarning, because when supplying an
-			-- Error object node throws in the tests because of different contexts
-			warn("DeprecationWarning:", message)
-			-- ROBLOX deviation END
-		else
-			local deprecationError = Error.new(message)
-			deprecationError.name = "DeprecationWarning"
-			console.warn(Error.new(message))
-		end
+		-- ROBLOX deviation START: skip node env check
+		-- if process.emitWarning then
+		-- 	-- A string is directly supplied to emitWarning, because when supplying an
+		-- 	-- Error object node throws in the tests because of different contexts
+		-- 	process.emitWarning("DeprecationWarning:", message)
+		-- else
+		local deprecationError = Error.new(message)
+		deprecationError.name = "DeprecationWarning"
+		console.warn(Error.new(message))
+		-- end
+		-- ROBLOX deviation END
 	end
 	-- ROBLOX deviation START: col number can be nil, make sure we pass a number to math.max
 	colNumber = math.max(colNumber or 1, 1)

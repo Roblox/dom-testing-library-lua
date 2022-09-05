@@ -238,9 +238,7 @@ test("assigns target properties", function()
 	end)
 	fireEvent.change(node, { target = { Text = value } })
 	expect(spy).toHaveBeenCalledTimes(1)
-	-- ROBLOX deviation START: replaced .toHaveValue
-	expect(node.Text).toBe(value)
-	-- ROBLOX deviation END
+	expect(node).toHaveValue(value)
 end)
 test("assigns selection-related target properties", function()
 	local node = Instance.new("TextBox")
@@ -257,9 +255,7 @@ test("assigns selection-related target properties", function()
 		node,
 		{ target = { Text = value, SelectionStart = selectionStart, CursorPosition = selectionEnd } }
 	)
-	-- ROBLOX deviation START: replace .toHaveValue
-	expect(node.Text).toBe(value)
-	-- ROBLOX deviation END
+	expect(node).toHaveValue(value)
 	expect(node.SelectionStart).toBe(selectionStart)
 	expect(node.CursorPosition).toBe(selectionEnd)
 end)

@@ -1195,13 +1195,11 @@ test("using jest helpers to assert element states", function()
 	-- other ways to assert your test cases, but you don't need all of them.
 	expect(queryByTestId("count-value")).toBeTruthy()
 	expect(queryByTestId("count-value1")).never.toBeTruthy()
-	-- ROBLOX deviation START: toHaveTextContent replaced with .Text
-	expect(queryByTestId("count-value").Text).toBe("2")
-	expect(queryByTestId("count-value").Text).never.toBe("21")
+	expect(queryByTestId("count-value")).toHaveTextContent("2")
+	expect(queryByTestId("count-value")).never.toHaveTextContent("21")
 	expect(function()
-		return expect(queryByTestId("count-value2").Text).toBe("2")
+		return expect(queryByTestId("count-value2")).toHaveTextContent("2")
 	end).toThrowError()
-	-- ROBLOX deviation END
 
 	-- negative test cases wrapped in throwError assertions for coverage.
 	expect(function()
