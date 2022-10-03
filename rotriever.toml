@@ -1,8 +1,10 @@
 [package]
 name = "DomTestingLibrary"
-version = "0.0.1"
+version = "8.14.0"
 authors = [
-
+    "Ignacio Falk <flakolefluk@gmail.com>",
+    "Allan Jeremy <dev@allanjeremy.com>",
+    "Paul Doyle <pdoyle@roblox.com>"
 ]
 content_root = "src"
 
