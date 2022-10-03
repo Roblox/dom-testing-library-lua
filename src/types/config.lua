@@ -6,8 +6,6 @@ type Error = LuauPolyfill.Error
 type Object = LuauPolyfill.Object
 type Promise<T> = LuauPolyfill.Promise<T>
 
-type unknown = any --[[ ROBLOX FIXME: adding `unknown` type alias to make it easier to use Luau unknown equivalent when supported ]]
-
 -- ROBLOX deviation START: unknown types
 type Partial<T> = Object
 -- ROBLOX deviation END

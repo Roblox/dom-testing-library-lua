@@ -7,8 +7,6 @@ type Object = LuauPolyfill.Object
 
 local querySelectorAll = require(script.Parent.Parent.jsHelpers.querySelectors).querySelectorAll
 
-type unknown = any --[[ ROBLOX FIXME: adding `unknown` type alias to make it easier to use Luau unknown equivalent when supported ]]
-
 local exports = {}
 
 local wrapAllByQueryWithSuggestion = require(script.Parent.Parent["query-helpers"]).wrapAllByQueryWithSuggestion

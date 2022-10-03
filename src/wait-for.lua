@@ -9,6 +9,7 @@ local clearTimeout = LuauPolyfill.clearTimeout
 local setInterval = LuauPolyfill.setInterval
 local setTimeout = LuauPolyfill.setTimeout
 type Error = LuauPolyfill.Error
+type Promise<T> = LuauPolyfill.Promise<T>
 
 local Promise = require(Packages.Promise)
 
@@ -200,7 +201,7 @@ local function waitFor(callback, ref)
 					-- https://stackoverflow.com/a/59243586/971592
 					-- eslint-disable-next-line no-await-in-loop
 					-- ROBLOX deviation START: currently handling Promises but not thenables
-					local wrapper = advanceTimersWrapper(function()
+					local wrapper = advanceTimersWrapper(function(): Promise<any>
 						return Promise.resolve():andThen(function()
 							Promise.new(function(r)
 								setTimeout(r, 0)
@@ -208,8 +209,9 @@ local function waitFor(callback, ref)
 							end):expect()
 						end)
 					end)
-					if typeof(wrapper.expect) == "function" then
-						wrapper:expect()
+					-- ROBLOX FIXME Luau: wrapper type is unknown
+					if typeof((wrapper :: any).expect) == "function" then
+						(wrapper :: any):expect()
 					else
 						error("advanceTimersWrapper should return a Promise")
 					end

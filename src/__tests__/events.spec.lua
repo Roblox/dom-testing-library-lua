@@ -79,6 +79,7 @@ local eventTypes = {
 						props = { Size = UDim2.new(0, 100, 0, 100), Text = "" },
 						eventProps = { target = { Text = "NewText" } },
 						listener = "Changed",
+						listenTo = "Text",
 					},
 				},
 			},
@@ -125,10 +126,9 @@ Array.forEach(eventTypes, function(ref)
 					local spy = jest.fn()
 					connection = node[test.listener]:Connect(function(...)
 						local args = { ... }
-						if args[1] and Array.includes({ "Parent", "OverlayNativeInput" }, args[1]) then
-							return
+						if args[1] and (test.listenTo == args[1] or not test.listenTo) then
+							spy()
 						end
-						spy()
 					end)
 					fireEvent[event.name](node, test.eventProps)
 					expect(spy).toHaveBeenCalledTimes(1)
