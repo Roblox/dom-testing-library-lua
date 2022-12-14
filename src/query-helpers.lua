@@ -83,14 +83,17 @@ local function queryAllByAttribute(
 			{ attribute },
 			if Array.includes(matchAsProperties, attribute)
 				then "property"
-				else if getConfig().testIdAttribute == attribute then "tag" else "attribute"
+				-- ROBLOX deviation START: needs cast to string
+				-- else if getConfig().testIdAttribute == attribute then "tag" else "attribute"
+				else if (getConfig().testIdAttribute :: string) == attribute then "tag" else "attribute"
+			-- ROBLOX deviation END
 		),
 		function(node: Instance)
 			return matcher(
 				-- ROBLOX deviation START: we need to access values as properties, attributes or tags
 				if Array.includes(matchAsProperties, attribute)
 					then getProperty(node, attribute)
-					elseif getConfig().testIdAttribute == attribute then getNodeTestId(node)
+					elseif (getConfig().testIdAttribute :: string) == attribute then getNodeTestId(node)
 					else node:GetAttribute(attribute),
 				-- ROBLOX deviation END
 				node,
