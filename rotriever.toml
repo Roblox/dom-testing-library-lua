@@ -1,12 +1,13 @@
 [package]
 name = "DomTestingLibrary"
-version = "8.14.0"
+version = "8.14.1"
 authors = [
     "Ignacio Falk <flakolefluk@gmail.com>",
     "Allan Jeremy <dev@allanjeremy.com>",
     "Paul Doyle <pdoyle@roblox.com>"
 ]
 content_root = "src"
+files = ["*", "!**/__tests__/**"]
 
 [dependencies]
 LuauPolyfill = "github.com/roblox/luau-polyfill@1"
