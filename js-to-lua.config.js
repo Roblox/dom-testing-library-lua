@@ -10,7 +10,7 @@ module.exports = {
   },
   downstream: {
     owner: "roblox",
-    repo: "dom-testing-library-lua",
+    repo: "dom-testing-library-lua-internal",
     primaryBranch: "main",
     patterns: ["**/*.lua"],
     ignorePatterns: ["Packages/**/*", "bin/**/*"],
