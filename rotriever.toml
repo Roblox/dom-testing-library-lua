@@ -1,10 +1,10 @@
 [package]
 name = "DomTestingLibrary"
-version = "8.14.1"
+version = "8.14.2"
 authors = [
     "Ignacio Falk <flakolefluk@gmail.com>",
     "Allan Jeremy <dev@allanjeremy.com>",
-    "Paul Doyle <pdoyle@roblox.com>"
+    "Paul Doyle <pdoyle@roblox.com>",
 ]
 content_root = "src"
 files = ["*", "!**/__tests__/**"]
@@ -13,11 +13,11 @@ files = ["*", "!**/__tests__/**"]
 LuauPolyfill = "github.com/roblox/luau-polyfill@1"
 LuauRegExp = "github.com/Roblox/luau-regexp@0.2.0"
 Chalk = "github.com/roblox/chalk-lua@0.2.0"
-Promise = "github.com/roblox/roblox-lua-promise@~3.3.0"
-JestGetType = "github.com/roblox/jest-roblox@3"
-PrettyFormat = "github.com/roblox/jest-roblox@3"
-RobloxShared = "github.com/roblox/jest-roblox@3"
-JestGlobals = "github.com/roblox/jest-roblox@3"
+Promise = "github.com/roblox/roblox-lua-promise@3.3.0"
+JestGetType = "github.com/roblox/jest-roblox@3.6.1"
+PrettyFormat = "github.com/roblox/jest-roblox@3.6.1"
+RobloxShared = "github.com/roblox/jest-roblox@3.6.1"
+JestGlobals = "github.com/roblox/jest-roblox@3.6.1"
 
 [dev_dependencies]
-Jest = "github.com/roblox/jest-roblox@3"
+Jest = "github.com/roblox/jest-roblox@3.6.1"

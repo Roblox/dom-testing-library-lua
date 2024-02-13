@@ -538,21 +538,14 @@ test("getSuggestedQuery returns rich data for tooling", function()
 	a.Text = "cancel"
 	local div = render({ a }).container:GetChildren()[1]
 
-	-- ROBLOX deviation START: splitted the tests. Possible bug in toMatchObject with regex
-	local suggestedQuery = getSuggestedQuery(div) :: Suggestion
-	expect(suggestedQuery).toMatchObject({
+	expect(getSuggestedQuery(div)).toMatchObject({
 		queryName = "Text",
 		queryMethod = "getByText",
+		queryArgs = { RegExp("cancel") },
 		variant = "get",
 	})
 
-	expect(suggestedQuery.queryArgs).toEqual({
-		RegExp("cancel"),
-	})
-	-- ROBLOX deviation END
-
-	local suggested = getSuggestedQuery(div)
-	expect(if suggested then suggested.toString() else suggested).toEqual("getByText(/cancel/)")
+	expect((getSuggestedQuery(div) :: Suggestion).toString()).toEqual("getByText(/cancel/)")
 end)
 test("getSuggestedQuery can return specified methods in addition to the best", function()
 	local label = Instance.new("TextLabel")
