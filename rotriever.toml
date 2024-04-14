@@ -1,6 +1,6 @@
 [package]
 name = "DomTestingLibrary"
-version = "8.14.3-rotriever.0"
+version = "8.14.3-rotriever.1"
 authors = [
     "Ignacio Falk <flakolefluk@gmail.com>",
     "Allan Jeremy <dev@allanjeremy.com>",
@@ -11,7 +11,7 @@ files = ["*", "!**/__tests__/**"]
 
 [dependencies]
 LuauPolyfill = "github.com/roblox/luau-polyfill@1"
-LuauRegExp = "github.com/Roblox/luau-regexp@0.2.0"
+LuauRegExp = { target = "github.com/Roblox/luau-regexp", version = "0.2.0", package = "RegExp" }
 Chalk = { target = "github.com/roblox/chalk-lua", version = "0.2.0", package = "ChalkLua" }
 Promise = "github.com/roblox/roblox-lua-promise@3.3.0"
 JestGetType = "github.com/roblox/jest-roblox@3.6.1"
