@@ -25,6 +25,38 @@ describe("dispatchEvent", function()
 		expect(callbackFn).toHaveBeenCalledTimes(1)
 	end)
 
+	test("should trigger mouseEnter event", function()
+		local element = Instance.new("TextButton")
+		element.Size = UDim2.new(0, 100, 0, 100)
+		element.Text = "Mouse Over Me"
+
+		local callbackFn = jest.fn()
+
+		element.MouseEnter:Connect(function(...)
+			callbackFn(...)
+		end)
+
+		expect(callbackFn).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "mouseEnter")
+		expect(callbackFn).toHaveBeenCalledTimes(1)
+	end)
+
+	test("should trigger mouseLeave event", function()
+		local element = Instance.new("TextButton")
+		element.Size = UDim2.new(0, 100, 0, 100)
+		element.Text = "Leave Me Alone"
+
+		local callbackFn = jest.fn()
+
+		element.MouseLeave:Connect(function(...)
+			callbackFn(...)
+		end)
+
+		expect(callbackFn).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "mouseLeave")
+		expect(callbackFn).toHaveBeenCalledTimes(1)
+	end)
+
 	test("should trigger tap event", function()
 		local element = Instance.new("TextButton")
 		element.Size = UDim2.new(0, 100, 0, 100)
