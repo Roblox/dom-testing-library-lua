@@ -95,6 +95,25 @@ local function tap(element: Instance)
 	virtualInput:WaitForInputEventsProcessed()
 end
 
+local function mouseEnter(element: any)
+	local x, y = getCenter(element)
+	local layerCollector = nil
+
+	virtualInput:SendMouseMoveEvent(x, y, layerCollector)
+	virtualInput:WaitForInputEventsProcessed()
+end
+
+local function mouseLeave(element: any)
+	local x, y = getCenter(element)
+	local position = (element :: any).AbsolutePosition
+	local layerCollector = nil
+
+	virtualInput:SendMouseMoveEvent(x, y, layerCollector)
+	virtualInput:WaitForInputEventsProcessed()
+	virtualInput:SendMouseMoveEvent(position.X - 1, position.Y - 1, layerCollector)
+	virtualInput:WaitForInputEventsProcessed()
+end
+
 local function keyDown(_element: Instance, data: { key: Enum.KeyCode })
 	if not data or not data.key then
 		error("No key set for event")
@@ -123,7 +142,7 @@ local function change(element: Instance, data: { target: { [string]: any } })
 	end
 end
 
-local function resize(element: GuiObject, data: { value: UDim2? })
+local function resize(element: any, data: { value: UDim2? })
 	local value = if data and data.value then data.value else element.Size
 	element.Size = value
 end
@@ -134,6 +153,8 @@ local events = {
 	tapWithoutValidation = makeInteractable(tap),
 	click = makeInteractable(withInputValidation(click)),
 	tap = makeInteractable(withInputValidation(tap)),
+	mouseEnter = makeInteractable(mouseEnter),
+	mouseLeave = makeInteractable(mouseLeave),
 	keyDown = makeInteractable(keyDown),
 	keyUp = makeInteractable(keyUp),
 	change = makeInteractable(change),
