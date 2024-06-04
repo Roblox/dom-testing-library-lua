@@ -9,6 +9,9 @@ authors = [
 content_root = "src"
 files = ["*", "!**/__tests__/**"]
 
+[config]
+registry_index = true
+
 [dependencies]
 LuauPolyfill = "github.com/roblox/luau-polyfill@1"
 LuauRegExp = { target = "github.com/Roblox/luau-regexp", version = "0.2.0", package = "RegExp" }
