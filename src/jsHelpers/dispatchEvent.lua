@@ -164,7 +164,7 @@ local events = {
 local function dispatchEvent(element: Instance, eventName: string, data: { [string]: any }?)
 	local eventFn = events[eventName]
 	if not eventFn then
-		error(string.format("Event '%s' not supported", eventFn))
+		error(string.format("Event '%s' not supported", eventName))
 	end
 	eventFn(element, data)
 end
