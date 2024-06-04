@@ -1,6 +1,6 @@
 [package]
 name = "DomTestingLibrary"
-version = "8.14.4-rotriever.1"
+version = "8.14.5-rotriever.1"
 authors = [
     "Ignacio Falk <flakolefluk@gmail.com>",
     "Allan Jeremy <dev@allanjeremy.com>",
