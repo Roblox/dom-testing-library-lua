@@ -1,13 +1,13 @@
 [package]
 name = "DomTestingLibrary"
-version = "8.14.6"
+version = "8.14.7"
 authors = [
     "Ignacio Falk <flakolefluk@gmail.com>",
     "Allan Jeremy <dev@allanjeremy.com>",
     "Paul Doyle <pdoyle@roblox.com>",
 ]
 content_root = "src"
-files = ["*", "!**/__tests__/**"]
+files = ["*", "!**/__tests__/**", "!**/.robloxrc"]
 
 [config]
 registry_index = true
@@ -24,3 +24,10 @@ JestGlobals = "github.com/roblox/jest-roblox@3.6.1"
 
 [dev_dependencies]
 Jest = "github.com/roblox/jest-roblox@3.6.1"
+
+[config.patch."github.com/roblox/jest-roblox"]
+JestGetType = "github.com/roblox/jest-roblox@=3.8.1"
+PrettyFormat = "github.com/roblox/jest-roblox@=3.8.1"
+RobloxShared = "github.com/roblox/jest-roblox@=3.8.1"
+JestGlobals = "github.com/roblox/jest-roblox@=3.8.1"
+Jest = "github.com/roblox/jest-roblox@=3.8.1"
