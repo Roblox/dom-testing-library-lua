@@ -32,18 +32,23 @@ end
 
 local function getDescendantsMatching(instance: Instance, patterns: Array<string>, type_: SelectorType?, max: number?)
 	local matchesResult = {}
-	local children = instance:GetChildren()
 
-	Array.forEach(children, function(child)
-		if matches(child, patterns, type_) then
-			table.insert(matchesResult, child)
+	for _, descendant in instance:GetDescendants() do
+		if not matches(descendant, patterns, type_) then
+			continue
 		end
-		matchesResult = Array.concat(matchesResult, getDescendantsMatching(child, patterns, type_, max))
-	end)
 
-	return if max
-		then (if max == 1 then matchesResult[1] else Array.slice(matchesResult, 1, max + 1))
-		else matchesResult
+		if max == 1 then
+			return descendant
+		end
+
+		table.insert(matchesResult, descendant)
+		if max == #matchesResult then
+			return matchesResult
+		end
+	end
+
+	return matchesResult
 end
 
 exports.querySelector = function(instance: Instance, patterns: Array<string>, type_: SelectorType?)
