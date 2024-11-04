@@ -4,6 +4,7 @@
 	this plugin serializes Roblox Instance objects
 	https://developer.roblox.com/en-us/api-reference/class/Instance
 ]]
+--!strict
 local Packages = script.Parent.Parent
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
@@ -17,7 +18,6 @@ local JestGetType = require(Packages.JestGetType)
 local getType = JestGetType.getType
 
 local RobloxInstance = require(Packages.RobloxShared).RobloxInstance
-local getRobloxProperties = RobloxInstance.getRobloxProperties
 local InstanceSubset = RobloxInstance.InstanceSubset
 
 local function printTableEntries(
@@ -85,57 +85,72 @@ local function printInstance(
 ): string
 	local result = ""
 
-	local children = val:GetChildren()
-	table.sort(children, function(a, b)
+	--[[
+		ROBLOX TODO: do we truly need to reimplement this pretty printer?
+		* missing recent RobloxShared pretty printing features
+		  `printInstanceDefaults` in particular is important for compat
+		* quantum UI workaround was added here but not RobloxShared
+		* only adds a filtering function for children, we could implement
+		  this in RobloxShared rather than bifurcating the impl
+	]]
+	local printChildrenList = Array.filter(val:GetChildren(), filter)
+	table.sort(printChildrenList, function(a, b)
 		return a.Name < b.Name
 	end)
-	local props = getRobloxProperties(val.ClassName)
 
-	if #props > 0 or #children > 0 then
+	-- ROBLOX TODO: this is a temporary hack to ensure the property list is
+	-- stable due to quantum UI quirks. A mid-term fix will be added to
+	-- `RobloxInstance.listProps` soon - remove this duplicate call then.
+	RobloxInstance.listProps(val)
+	local propertiesMap = RobloxInstance.listProps(val)
+	local printPropsList = Object.keys(propertiesMap)
+	-- ROBLOX TODO: skipping printInstanceDefaults because this wasn't here
+	-- before, should we add it here too?
+	-- if not config.printInstanceDefaults then
+	-- 	local defaultsMap = RobloxInstance.listDefaultProps(val.ClassName)
+	-- 	printPropsList = Array.filter(printPropsList, function(name)
+	-- 		return propertiesMap[name] ~= defaultsMap[name]
+	-- 	end)
+	-- end
+	table.sort(printPropsList)
+
+	local willPrintProps = #printPropsList > 0
+	local willPrintChildren = #printChildrenList > 0
+
+	if willPrintProps or willPrintChildren then
 		result = result .. config.spacingOuter
 
 		local indentationNext = indentation .. config.indent
 
-		--[[ROBLOX comment:
-			some properties are not stable until they are accesed
-			this workaround access all of them once before printing
-		]]
-		local _workaround: any
-		for _, v in ipairs(props) do
-			_workaround = val[v]
-		end
-		_workaround = nil
-
-		-- ROBLOX comment: print properties of Instance
-		for i, v in ipairs(props) do
-			local name = printer(v, config, indentationNext, depth, refs)
-
-			local value = val[v]
-			-- ROBLOX comment: collapses output for Instance values to avoid loops
-			if getType(value) == "Instance" then
-				value = printer(value, config, indentationNext, math.huge, refs)
-			else
-				value = printer(value, config, indentationNext, depth, refs)
+		-- print properties of Instance
+		for propOrder, propName in ipairs(printPropsList) do
+			local propValue = propertiesMap[propName]
+			if propValue == Object.None then
+				propValue = nil
 			end
 
-			result = string.format("%s%s%s: %s", result, indentationNext, name, value)
+			-- collapses output for Instance values to avoid loops
+			local valueDepth = if getType(propValue) == "Instance" then math.huge else depth
+			local printName = printer(propName, config, indentationNext, depth, refs)
+			local printValue = printer(propValue, config, indentationNext, valueDepth, refs)
 
-			if i < #props or #children > 0 then
+			result = string.format("%s%s%s: %s", result, indentationNext, printName, printValue)
+
+			if propOrder ~= #printPropsList or willPrintChildren then
 				result = result .. "," .. config.spacingInner
 			elseif not config.min then
 				result = result .. ","
 			end
 		end
 
-		-- ROBLOX comment: recursively print children of Instance
-		local filtered = Array.filter(children, filter)
-		for i, v in ipairs(filtered) do
-			local name = printer(v.Name, config, indentationNext, depth, refs)
-			local value = printer(v, config, indentationNext, depth, refs)
+		-- recursively print children of Instance
+		for childOrder, child in ipairs(printChildrenList) do
+			local printName = printer(child.Name, config, indentationNext, depth, refs)
+			local printValue = printer(child, config, indentationNext, depth, refs)
 
-			result = string.format("%s%s%s: %s", result, indentationNext, name, value)
+			result = string.format("%s%s%s: %s", result, indentationNext, printName, printValue)
 
-			if i < #filtered then
+			if childOrder ~= #printChildrenList then
 				result = result .. "," .. config.spacingInner
 			elseif not config.min then
 				result = result .. ","
