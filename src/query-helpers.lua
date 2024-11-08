@@ -16,6 +16,7 @@ local exports = {}
 -- ROBLOX deviation START: properties for matchers
 local matchAsProperties = {
 	"PlaceholderText",
+	"Image",
 }
 -- ROBLOX deviation END
 

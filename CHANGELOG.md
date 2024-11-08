@@ -1,5 +1,8 @@
 # DOM Testing Library Lua Changelog
 
+## 8.14.9 (2024-11-08)
+* Include "Image" in property matches (#123)
+
 ## 8.14.8 (2024-11-04)
 * Optimize getDescendantsMatching (#119)
 * APT-2110 Fix RobloxShared dependency of DOMElementFilter (#121)
