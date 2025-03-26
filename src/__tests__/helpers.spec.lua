@@ -41,7 +41,7 @@ describe("window retrieval throws when given something other than a node", funct
 	end)
 	test("Promise as node", function()
 		expect(function()
-			return getWindowFromNode(Promise.new(jest.fn()))
+			return getWindowFromNode(Promise.new((jest.fn())))
 		end).toThrowError(
 			"It looks like you passed a Promise object instead of a DOM node. Did you do something like `fireEvent.click(screen.findBy...` when you meant to use a `getBy` query `fireEvent.click(screen.getBy...`, or await the findBy query `fireEvent.click(await screen.findBy...`?"
 		)

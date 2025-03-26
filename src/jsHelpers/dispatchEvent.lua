@@ -147,6 +147,25 @@ local function resize(element: any, data: { value: UDim2? })
 	element.Size = value
 end
 
+-- ROBLOX TODO:
+-- There are multiple possible ways a user may invoke a context menu across
+-- platforms, but this method only implements right click. This won't properly
+-- test code written for mobile or gamepad!
+-- Inferring this from last input type was considered, but wouldn't work if it
+-- were the first input action taken - you'd need a default. So probably better
+-- to implement a way for a unit test to select, or for a test run to use a
+-- certain input "profile" e.g. phone, Xbox... Perhaps test each profile in CI?
+local function contextMenu(element: Instance)
+	local x, y = getCenter(element)
+	local mouseButton = 1
+	local layerCollector = nil
+	local repeatCount = 1
+
+	virtualInput:SendMouseButtonEvent(x, y, mouseButton, true, layerCollector, repeatCount)
+	virtualInput:SendMouseButtonEvent(x, y, mouseButton, false, layerCollector, repeatCount)
+	virtualInput:WaitForInputEventsProcessed()
+end
+
 local events = {
 	-- Maintains parity with Rhodium for easier adoption
 	clickWithoutValidation = makeInteractable(click),
@@ -159,6 +178,7 @@ local events = {
 	keyUp = makeInteractable(keyUp),
 	change = makeInteractable(change),
 	resize = makeInteractable(resize),
+	contextMenu = makeInteractable(withInputValidation(contextMenu)),
 }
 
 local function dispatchEvent(element: Instance, eventName: string, data: { [string]: any }?)
