@@ -142,6 +142,22 @@ describe("dispatchEvent", function()
 		expect(callbackFn).toHaveBeenCalledTimes(1)
 	end)
 
+	test("should trigger contextMenu event", function()
+		local element = Instance.new("TextButton")
+		element.Size = UDim2.new(0, 100, 0, 100)
+		element.Text = "Click Me"
+
+		local callbackFn = jest.fn()
+
+		element.MouseButton2Click:Connect(function(...)
+			callbackFn(...)
+		end)
+
+		expect(callbackFn).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "contextMenu")
+		expect(callbackFn).toHaveBeenCalledTimes(1)
+	end)
+
 	describe("input validation", function()
 		test("should throw when click validation fails", function()
 			local container = Instance.new("Frame")
@@ -190,6 +206,23 @@ describe("dispatchEvent", function()
 
 			expect(function()
 				dispatchEvent(button, "tap")
+			end).toThrow("TextButton is outside bounds of ancestor Frame")
+		end)
+
+		test("should throw when contextMenu validation fails", function()
+			local container = Instance.new("Frame")
+			container.Size = UDim2.fromScale(0, 0)
+			container.ClipsDescendants = true
+
+			local button = Instance.new("TextButton")
+			button.Size = UDim2.new(0, 100, 0, 100)
+			button.Parent = container
+
+			local _, callbackFn = jest.fn()
+			button.MouseButton2Click:Connect(callbackFn)
+
+			expect(function()
+				dispatchEvent(button, "contextMenu")
 			end).toThrow("TextButton is outside bounds of ancestor Frame")
 		end)
 	end)

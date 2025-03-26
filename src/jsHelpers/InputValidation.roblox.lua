@@ -265,6 +265,15 @@ local function validateInputReceived(instance: GuiObject, simulateInput: () -> (
 				end
 			end)
 		)
+		-- This supports the `contextMenu` event, which is also validated.
+		-- We don't validate that the InputObject is cancelled, but it's not
+		-- clear why this case would ever come up in a controlled environment.
+		table.insert(
+			connections,
+			instance.MouseButton2Click:Connect(function()
+				didReceiveInput = true
+			end)
+		)
 	elseif instance:IsA("TextBox") and not instance:IsFocused() then
 		-- If the instance is an unfocused TextBox and we're clicking on it,
 		-- we're probably trying to simulate a user clicking to focus on it
