@@ -14,6 +14,7 @@ global_usage = "allow"
 unused_variable = "allow"
 # remove when the Luau type narrowing issues (and the workarounds) are resolved
 shadowing = "allow"
-
+# complains about internal services
+incorrect_standard_library_use = "allow"
 # remove when this issue is fixed: https://github.com/Kampfkarren/selene/issues/179
 if_same_then_else = "allow"
