@@ -1,5 +1,9 @@
 # DOM Testing Library Lua Changelog
 
+## 8.15.0 (2025-04-02)
+* Add contextMenu event (#126)
+* Update codecov endpoint (#128)
+
 ## 8.14.9 (2024-11-08)
 * Include "Image" in property matches (#123)
 
