@@ -25,6 +25,45 @@ describe("dispatchEvent", function()
 		expect(callbackFn).toHaveBeenCalledTimes(1)
 	end)
 
+	test("should trigger drag event", function()
+		local element = Instance.new("TextButton")
+		element.Size = UDim2.new(0, 100, 0, 100)
+		element.Text = "Drag Me"
+
+		local callbackFn = jest.fn()
+		local callbackFn2 = jest.fn()
+
+		element.Activated:Connect(function(...)
+			callbackFn(...)
+		end)
+		element.MouseMoved:Connect(function(...)
+			callbackFn2(...)
+		end)
+
+		expect(callbackFn).toHaveBeenCalledTimes(0)
+		expect(callbackFn2).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "drag", { delta = Vector2.new(25, 25) })
+		expect(callbackFn).toHaveBeenCalledTimes(1)
+		expect(callbackFn2).toHaveBeenCalledTimes(2)
+	end)
+
+	test("should trigger mouseMove event", function()
+		local element = Instance.new("TextButton")
+		element.Size = UDim2.new(0, 100, 0, 100)
+		element.Text = "Pretend To Drag Me"
+
+		local callbackFn = jest.fn()
+
+		element.MouseMoved:Connect(function(...)
+			callbackFn(...)
+		end)
+
+		expect(callbackFn).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "mouseEnter")
+		dispatchEvent(element, "mouseMove", { delta = Vector2.new(25, 25) })
+		expect(callbackFn).toHaveBeenCalledTimes(2)
+	end)
+
 	test("should trigger mouseEnter event", function()
 		local element = Instance.new("TextButton")
 		element.Size = UDim2.new(0, 100, 0, 100)
@@ -54,6 +93,38 @@ describe("dispatchEvent", function()
 
 		expect(callbackFn).toHaveBeenCalledTimes(0)
 		dispatchEvent(element, "mouseLeave")
+		expect(callbackFn).toHaveBeenCalledTimes(1)
+	end)
+
+	test("should trigger mouseDown event", function()
+		local element = Instance.new("TextButton")
+		element.Size = UDim2.new(0, 100, 0, 100)
+		element.Text = "Press Me"
+
+		local callbackFn = jest.fn()
+
+		element.MouseButton1Down:Connect(function(...)
+			callbackFn(...)
+		end)
+
+		expect(callbackFn).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "mouseDown")
+		expect(callbackFn).toHaveBeenCalledTimes(1)
+	end)
+
+	test("should trigger mouseUp event", function()
+		local element = Instance.new("TextButton")
+		element.Size = UDim2.new(0, 100, 0, 100)
+		element.Text = "Release Me"
+
+		local callbackFn = jest.fn()
+
+		element.MouseButton1Up:Connect(function(...)
+			callbackFn(...)
+		end)
+
+		expect(callbackFn).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "mouseUp")
 		expect(callbackFn).toHaveBeenCalledTimes(1)
 	end)
 
