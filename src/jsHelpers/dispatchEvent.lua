@@ -61,10 +61,10 @@ local function makeInteractable(fn: any)
 	end
 end
 
-local function withInputValidation(fn: (Instance) -> ())
-	return function(element)
+local function withInputValidation(fn: (Instance, any) -> ())
+	return function(element, data)
 		validateInput(getGuiObject(element), function()
-			fn(element)
+			fn(element, data)
 		end)
 	end
 end
@@ -95,11 +95,39 @@ local function tap(element: Instance)
 	virtualInput:WaitForInputEventsProcessed()
 end
 
+local function drag(element: Instance, data: { delta: Vector2 })
+	local x, y = getCenter(element)
+	local mouseButton = 0
+	local layerCollector = nil
+	local repeatCount = 1
+
+	virtualInput:SendMouseMoveEvent(x, y, layerCollector)
+	virtualInput:WaitForInputEventsProcessed()
+	virtualInput:SendMouseButtonEvent(x, y, mouseButton, true, layerCollector, repeatCount)
+	virtualInput:SendMouseMoveDeltaEvent(data.delta.X, data.delta.Y, layerCollector)
+	virtualInput:SendMouseButtonEvent(
+		x + data.delta.X,
+		y + data.delta.Y,
+		mouseButton,
+		false,
+		layerCollector,
+		repeatCount
+	)
+	virtualInput:WaitForInputEventsProcessed()
+end
+
 local function mouseEnter(element: any)
 	local x, y = getCenter(element)
 	local layerCollector = nil
 
 	virtualInput:SendMouseMoveEvent(x, y, layerCollector)
+	virtualInput:WaitForInputEventsProcessed()
+end
+
+local function mouseMove(_element: any, data: { delta: Vector2 })
+	local layerCollector = nil
+
+	virtualInput:SendMouseMoveDeltaEvent(data.delta.X, data.delta.Y, layerCollector)
 	virtualInput:WaitForInputEventsProcessed()
 end
 
@@ -111,6 +139,26 @@ local function mouseLeave(element: any)
 	virtualInput:SendMouseMoveEvent(x, y, layerCollector)
 	virtualInput:WaitForInputEventsProcessed()
 	virtualInput:SendMouseMoveEvent(position.X - 1, position.Y - 1, layerCollector)
+	virtualInput:WaitForInputEventsProcessed()
+end
+
+local function mouseDown(element: any)
+	local x, y = getCenter(element)
+	local mouseButton = 0
+	local layerCollector = nil
+	local repeatCount = 1
+
+	virtualInput:SendMouseButtonEvent(x, y, mouseButton, true, layerCollector, repeatCount)
+	virtualInput:WaitForInputEventsProcessed()
+end
+
+local function mouseUp(element: any)
+	local x, y = getCenter(element)
+	local mouseButton = 0
+	local layerCollector = nil
+	local repeatCount = 1
+
+	virtualInput:SendMouseButtonEvent(x, y, mouseButton, false, layerCollector, repeatCount)
 	virtualInput:WaitForInputEventsProcessed()
 end
 
@@ -172,7 +220,11 @@ local events = {
 	tapWithoutValidation = makeInteractable(tap),
 	click = makeInteractable(withInputValidation(click)),
 	tap = makeInteractable(withInputValidation(tap)),
+	drag = makeInteractable(drag),
+	mouseDown = makeInteractable(mouseDown),
+	mouseUp = makeInteractable(mouseUp),
 	mouseEnter = makeInteractable(mouseEnter),
+	mouseMove = makeInteractable(mouseMove),
 	mouseLeave = makeInteractable(mouseLeave),
 	keyDown = makeInteractable(keyDown),
 	keyUp = makeInteractable(keyUp),
