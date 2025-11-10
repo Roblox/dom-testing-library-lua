@@ -15,7 +15,7 @@ registry_index = true
 [dependencies]
 LuauPolyfill = "github.com/roblox/luau-polyfill@1"
 LuauRegExp = { target = "github.com/Roblox/luau-regexp", version = "0.2.0", package = "RegExp" }
-Chalk = { target = "github.com/roblox/chalk-lua", version = "0.2.0", package = "ChalkLua" }
+Chalk = { target = "github.com/roblox/chalk-lua", version = "0.3.0", package = "ChalkLua" }
 Promise = "github.com/roblox/roblox-lua-promise@3.3.0"
 JestGetType = "github.com/roblox/jest-roblox@3.10.0"
 PrettyFormat = "github.com/roblox/jest-roblox@3.10.0"
