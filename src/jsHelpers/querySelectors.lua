@@ -44,11 +44,11 @@ local function getDescendantsMatching(instance: Instance, patterns: Array<string
 
 		table.insert(matchesResult, descendant)
 		if max == #matchesResult then
-			return matchesResult
+			return matchesResult :: any
 		end
 	end
 
-	return matchesResult
+	return matchesResult :: any
 end
 
 exports.querySelector = function(instance: Instance, patterns: Array<string>, type_: SelectorType?)

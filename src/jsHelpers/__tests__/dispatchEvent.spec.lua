@@ -158,6 +158,7 @@ describe("dispatchEvent", function()
 
 		expect(callbackFn).toHaveBeenCalledTimes(0)
 		dispatchEvent(element, "keyDown", { key = Enum.KeyCode.Escape })
+		dispatchEvent(element, "keyUp", { key = Enum.KeyCode.Escape })
 		expect(callbackFn).toHaveBeenCalledTimes(1)
 	end)
 
@@ -174,6 +175,7 @@ describe("dispatchEvent", function()
 		end)
 
 		expect(callbackFn).toHaveBeenCalledTimes(0)
+		dispatchEvent(element, "keyDown", { key = Enum.KeyCode.Escape })
 		dispatchEvent(element, "keyUp", { key = Enum.KeyCode.Escape })
 		expect(callbackFn).toHaveBeenCalledTimes(1)
 	end)

@@ -538,12 +538,13 @@ test("getSuggestedQuery returns rich data for tooling", function()
 	a.Text = "cancel"
 	local div = render({ a }).container:GetChildren()[1]
 
-	expect(getSuggestedQuery(div)).toMatchObject({
+	local suggestion = getSuggestedQuery(div) :: Suggestion
+	expect(suggestion).toMatchObject({
 		queryName = "Text",
 		queryMethod = "getByText",
-		queryArgs = { RegExp("cancel") },
 		variant = "get",
 	})
+	expect(tostring(suggestion.queryArgs[1])).toEqual("/cancel/")
 
 	expect((getSuggestedQuery(div) :: Suggestion).toString()).toEqual("getByText(/cancel/)")
 end)
@@ -591,9 +592,7 @@ test("getSuggestedQuery can return specified methods in addition to the best", f
 		queryMethod = "getByPlaceholderText",
 		variant = "get",
 	})
-	expect(placeholderSuggestion.queryArgs).toEqual({
-		RegExp("placeholder"),
-	})
+	expect(tostring(placeholderSuggestion.queryArgs[1])).toEqual("/placeholder/")
 
 	local buttonSuggestion = getSuggestedQuery(button, "get", "Text") :: Suggestion
 	expect(buttonSuggestion).toMatchObject({
@@ -601,9 +600,7 @@ test("getSuggestedQuery can return specified methods in addition to the best", f
 		queryMethod = "getByText",
 		variant = "get",
 	})
-	expect(buttonSuggestion.queryArgs).toEqual({
-		RegExp("button"),
-	})
+	expect(tostring(buttonSuggestion.queryArgs[1])).toEqual("/button/")
 
 	local displaySuggestion = getSuggestedQuery(input, "get", "DisplayValue") :: Suggestion
 	expect(displaySuggestion).toMatchObject({
@@ -611,9 +608,7 @@ test("getSuggestedQuery can return specified methods in addition to the best", f
 		queryMethod = "getByDisplayValue",
 		variant = "get",
 	})
-	expect(displaySuggestion.queryArgs).toEqual({
-		RegExp("value"),
-	})
+	expect(tostring(displaySuggestion.queryArgs[1])).toEqual("/value/")
 	-- ROBLOX deviation END
 
 	-- ROBLOX deviation START: ByAltText, ByRole not supported

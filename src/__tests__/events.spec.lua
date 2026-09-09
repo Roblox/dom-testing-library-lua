@@ -434,6 +434,7 @@ test("fires events on document", function()
 		keyDownSpy(...)
 	end)
 	fireEvent.keyDown(div, { key = Enum.KeyCode.Escape })
+	fireEvent.keyUp(div, { key = Enum.KeyCode.Escape })
 
 	expect(keyDownSpy).toHaveBeenCalledTimes(1)
 	connection:Disconnect()

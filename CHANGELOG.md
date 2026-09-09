@@ -1,5 +1,8 @@
 # DOM Testing Library Lua Changelog
 
+## 8.16.1 (2026-09-09)
+* Updates version of regexp used by DomTestingLibrary
+
 ## 8.15.0 (2025-04-02)
 * Add contextMenu event (#126)
 * Update codecov endpoint (#128)
