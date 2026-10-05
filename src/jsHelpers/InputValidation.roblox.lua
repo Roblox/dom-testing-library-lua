@@ -1,5 +1,6 @@
 --!strict
-local VirtualInputManager = game:GetService("VirtualInputManager")
+-- VirtualInputManager is not available at every security level, so it is
+-- fetched where input is sent rather than when this module is required.
 
 local INPUT_VALIDATION_PREFIX = "[Testing Library] input validation"
 
@@ -218,6 +219,7 @@ local function assertFirstInputTarget(instance: Instance)
 	-- calling `GetGuiObjectsAtPosition` should also force quadtree generation
 	-- This issue is marked as resolved behind the flag InitUIQuadTreeRework,
 	-- but enabling it doesn't seem to resolve the issue
+	local VirtualInputManager = game:GetService("VirtualInputManager")
 	VirtualInputManager:SendMouseMoveEvent(anchor.X, anchor.Y, nil :: any)
 	VirtualInputManager:WaitForInputEventsProcessed()
 	local atClickLocation: { GuiObject } = (baseGui :: BasePlayerGui):GetGuiObjectsAtPosition(anchor.X, anchor.Y) :: any
@@ -321,7 +323,7 @@ local function validateInput(guiObject: GuiObject, simulateInput: () -> ())
 
 	-- Waiting for events will also allow a re-layout to complete, which should
 	-- resolve any impending size and position changes
-	VirtualInputManager:WaitForInputEventsProcessed()
+	game:GetService("VirtualInputManager"):WaitForInputEventsProcessed()
 
 	local didReceiveInput = validateInputReceived(guiObject, simulateInput)
 	if not didReceiveInput then

@@ -1,6 +1,7 @@
 --!strict
 -- ROBLOX upstream: no upstream
-local virtualInput = game:GetService("VirtualInputManager")
+-- VirtualInputManager is not available at every security level, so each event
+-- fetches it when it sends input rather than when this module is required.
 
 local Packages = script.Parent.Parent.Parent
 
@@ -77,6 +78,7 @@ local function getCenter(element: Instance): (number, number)
 end
 
 local function click(element: Instance)
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 	local mouseButton = 0
 	local layerCollector = nil
@@ -88,6 +90,7 @@ local function click(element: Instance)
 end
 
 local function tap(element: Instance)
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 
 	virtualInput:SendTouchEvent(defaultTouchId, TOUCH_START, x, y)
@@ -96,6 +99,7 @@ local function tap(element: Instance)
 end
 
 local function drag(element: Instance, data: { delta: Vector2 })
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 	local mouseButton = 0
 	local layerCollector = nil
@@ -117,6 +121,7 @@ local function drag(element: Instance, data: { delta: Vector2 })
 end
 
 local function mouseEnter(element: any)
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 	local layerCollector = nil
 
@@ -125,6 +130,7 @@ local function mouseEnter(element: any)
 end
 
 local function mouseMove(_element: any, data: { delta: Vector2 })
+	local virtualInput = game:GetService("VirtualInputManager")
 	local layerCollector = nil
 
 	virtualInput:SendMouseMoveDeltaEvent(data.delta.X, data.delta.Y, layerCollector)
@@ -132,6 +138,7 @@ local function mouseMove(_element: any, data: { delta: Vector2 })
 end
 
 local function mouseLeave(element: any)
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 	local position = (element :: any).AbsolutePosition
 	local layerCollector = nil
@@ -143,6 +150,7 @@ local function mouseLeave(element: any)
 end
 
 local function mouseDown(element: any)
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 	local mouseButton = 0
 	local layerCollector = nil
@@ -153,6 +161,7 @@ local function mouseDown(element: any)
 end
 
 local function mouseUp(element: any)
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 	local mouseButton = 0
 	local layerCollector = nil
@@ -166,6 +175,7 @@ local function keyDown(_element: Instance, data: { key: Enum.KeyCode })
 	if not data or not data.key then
 		error("No key set for event")
 	end
+	local virtualInput = game:GetService("VirtualInputManager")
 	virtualInput:SendKeyEvent(true, data.key, false, nil :: any)
 	virtualInput:WaitForInputEventsProcessed()
 end
@@ -174,6 +184,7 @@ local function keyUp(_element: Instance, data: { key: Enum.KeyCode })
 	if not data or not data.key then
 		error("No key set for event")
 	end
+	local virtualInput = game:GetService("VirtualInputManager")
 	virtualInput:SendKeyEvent(false, data.key, false, nil :: any)
 	virtualInput:WaitForInputEventsProcessed()
 end
@@ -204,6 +215,7 @@ end
 -- to implement a way for a unit test to select, or for a test run to use a
 -- certain input "profile" e.g. phone, Xbox... Perhaps test each profile in CI?
 local function contextMenu(element: Instance)
+	local virtualInput = game:GetService("VirtualInputManager")
 	local x, y = getCenter(element)
 	local mouseButton = 1
 	local layerCollector = nil
