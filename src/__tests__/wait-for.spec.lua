@@ -249,7 +249,7 @@ Folder {
       "Size": UDim2({0, 0}, {0, 0}),
       "SizeConstraint": EnumItem(Enum.SizeConstraint.RelativeXY),
       "Text": "how pretty",
-      "TextBounds": Vector2(NAN, NAN),
+      "TextBounds": Vector2(0, 0),
       "TextColor3": Color3(0.105882, 0.164706, 0.207843),
       "TextFits": false,
       "TextScaled": false,
