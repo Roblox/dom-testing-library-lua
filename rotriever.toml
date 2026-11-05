@@ -1,6 +1,6 @@
 [package]
 name = "DomTestingLibrary"
-version = "8.16.1"
+version = "8.16.2"
 authors = [
     "Ignacio Falk <flakolefluk@gmail.com>",
     "Allan Jeremy <dev@allanjeremy.com>",

@@ -1,5 +1,9 @@
 # DOM Testing Library Lua Changelog
 
+## 8.16.2 (2026-11-05)
+* Look up VirtualInputManager when sending input instead of at require time (#138)
+* Expect zero TextBounds for empty text labels in pretty DOM specs (#139)
+
 ## 8.16.1 (2026-09-09)
 * Updates version of regexp used by DomTestingLibrary
 
